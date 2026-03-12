@@ -1,0 +1,14 @@
+<div class="activities">
+
+  <h2>Liste des activités</h2>
+
+  <div *ngFor="let activity of activities" class="activity-card">
+
+    <h3>{{ activity.title }}</h3>
+    <small>{{ activity.date }}</small>
+
+    <p>{{ activity.description }}</p>
+
+  </div>
+
+</div>
