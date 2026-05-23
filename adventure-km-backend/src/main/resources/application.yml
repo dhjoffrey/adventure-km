@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: adventure-km-backend
+
+  profiles:
+    active: dev
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
+  jpa:
+    open-in-view: false
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: adventure-km-dev-secret-key-change-in-production-must-be-at-least-256-bits-long
+    access-token-expiration-ms: 900000
+    refresh-token-expiration-ms: 2592000000
+  upload:
+    dir: ./uploads
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:adventurekm
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:postgresql://localhost:5432/adventurekm
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
