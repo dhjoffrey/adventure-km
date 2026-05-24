@@ -1,0 +1,63 @@
+@if (adventure(); as adv) {
+  <div class="container detail-page">
+    <div class="detail-header">
+      <span class="adventure-type">{{ adv.type ?? 'sortie' }}</span>
+      <h1>{{ adv.title }}</h1>
+      <div class="meta">
+        <span>{{ adv.date }}</span>
+        <span>par {{ adv.author.username }}</span>
+      </div>
+    </div>
+
+    @if (adv.stats) {
+      <div class="stats-row">
+        <app-stat-badge [value]="adv.stats.distanceKm + ' km'" label="Distance" />
+        <app-stat-badge [value]="adv.stats.elevationGainM + ' m'" label="D+" />
+        <app-stat-badge [value]="adv.stats.elevationLossM + ' m'" label="D-" />
+        <app-stat-badge [value]="formatDuration(adv.stats.durationMinutes)" label="Durée" />
+        <app-stat-badge [value]="adv.stats.maxAltitudeM + ' m'" label="Alt. max" />
+      </div>
+    }
+
+    @if (adv.gpxPath) {
+      <div class="map-section">
+        <h2 class="pixel-title">Trace GPS</h2>
+        <div #mapContainer class="map-container"></div>
+      </div>
+    }
+
+    <div class="content-section">
+      <markdown [data]="adv.content" />
+    </div>
+
+    @if (adv.photos.length > 0) {
+      <div class="photos-section">
+        <h2 class="pixel-title">Photos</h2>
+        <div class="photo-grid">
+          @for (photo of adv.photos; track photo.id) {
+            <figure>
+              <img [src]="'/uploads/' + photo.filePath" [alt]="photo.caption ?? adv.title" />
+              @if (photo.caption) {
+                <figcaption>{{ photo.caption }}</figcaption>
+              }
+            </figure>
+          }
+        </div>
+      </div>
+    }
+
+    @if (adv.equipment.length > 0) {
+      <div class="equipment-section">
+        <h2 class="pixel-title">Équipement</h2>
+        <div class="equipment-grid">
+          @for (item of adv.equipment; track item.id) {
+            <div class="equipment-item card">
+              <span class="eq-name">{{ item.name }}</span>
+              <span class="eq-category">{{ item.category }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}

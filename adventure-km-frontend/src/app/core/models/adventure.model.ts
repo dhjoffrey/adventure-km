@@ -13,7 +13,7 @@ export interface AdventureStatsResponse {
 export interface PhotoResponse {
   id: number;
   filePath: string;
-  caption: string;
+  caption?: string;
   sortOrder: number;
 }
 
@@ -33,12 +33,12 @@ export interface AdventureResponse {
   title: string;
   date: string;
   content: string;
-  type: string;
-  difficulty: number;
-  gpxPath: string;
+  type?: string;
+  difficulty?: number;
+  gpxPath?: string;
   status: string;
   author: UserResponse;
-  stats: AdventureStatsResponse;
+  stats?: AdventureStatsResponse;
   photos: PhotoResponse[];
   equipment: EquipmentItemResponse[];
 }
