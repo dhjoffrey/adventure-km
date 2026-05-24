@@ -1,6 +1,7 @@
 package com.adventurekm.backend.service;
 
 import com.adventurekm.backend.exception.BadRequestException;
+import com.adventurekm.backend.exception.ForbiddenException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,7 +60,12 @@ public class FileStorageService {
     }
 
     public Path resolve(String relativePath) {
-        return Path.of(uploadDir, relativePath);
+        Path base = Path.of(uploadDir).toAbsolutePath().normalize();
+        Path resolved = base.resolve(relativePath).normalize();
+        if (!resolved.startsWith(base)) {
+            throw new ForbiddenException("Access denied");
+        }
+        return resolved;
     }
 
     private BufferedImage resizeImage(BufferedImage original, int maxWidth, int maxHeight) {

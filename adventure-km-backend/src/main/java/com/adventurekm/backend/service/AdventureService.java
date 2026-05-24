@@ -108,7 +108,7 @@ public class AdventureService {
         Adventure adventure = adventureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Adventure", id));
         if (!adventure.getUser().getUsername().equals(username)) {
-            throw new BadRequestException("Not authorized to publish this adventure");
+            throw new ForbiddenException("Not authorized to publish this adventure");
         }
         adventure.setStatus(AdventureStatus.PUBLISHED);
         adventure.setUpdatedAt(LocalDateTime.now());
@@ -124,7 +124,7 @@ public class AdventureService {
         Adventure adventure = adventureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Adventure", id));
         if (!adventure.getUser().getUsername().equals(username)) {
-            throw new BadRequestException("Not authorized to delete this adventure");
+            throw new ForbiddenException("Not authorized to delete this adventure");
         }
         adventureRepository.delete(adventure);
     }
