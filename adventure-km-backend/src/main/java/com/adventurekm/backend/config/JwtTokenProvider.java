@@ -75,4 +75,14 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
+    public boolean validateRefreshToken(String token) {
+        try {
+            var claims = Jwts.parser().verifyWith(key).build()
+                    .parseSignedClaims(token).getPayload();
+            return "refresh".equals(claims.get("type", String.class));
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
 }

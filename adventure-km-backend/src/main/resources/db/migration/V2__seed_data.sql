@@ -5,7 +5,7 @@
 -- ---- 1. Admin user ----
 INSERT INTO users (id, username, email, password_hash, avatar_sprite_id, role)
 VALUES (1, 'joffrey', 'dhjoffrey@gmail.com',
-        '$2a$10$dXJ3SW6G7P50lGmMQgel6u3dNJzs9tlvGWlSFs/EvNJhOm3Jg.IHi',
+        '$2a$10$pkcndOEwmMEuvFvE60e.tew3YwfWTqLbfN2WnSWLosUjXVt6MPmqm',
         1, 'ADMIN');
 
 -- ---- 2. User levels (initial zeros, updated at the end) ----

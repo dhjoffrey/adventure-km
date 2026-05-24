@@ -1,5 +1,7 @@
 package com.adventurekm.backend.service;
 
+import com.adventurekm.backend.dto.request.LoginRequest;
+import com.adventurekm.backend.dto.response.AuthResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,8 @@ class AuthServiceTest {
 
     @Test
     void loginWithSeedUser() {
-        assertThat(authService).isNotNull();
+        AuthResponse response = authService.login(new LoginRequest("joffrey", "admin123"));
+        assertThat(response.accessToken()).isNotBlank();
+        assertThat(response.refreshToken()).isNotBlank();
     }
 }
