@@ -1,19 +1,48 @@
 .header {
+  background: var(--bg-surface);
+  border-bottom: 2px solid var(--border-color);
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.header-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  background: orange;
-  color: white;
 }
-
-nav a {
-  margin-left: 15px;
-  color: white;
-  text-decoration: none;
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
 }
-
-nav a.active {
-  font-weight: bold;
-  text-decoration: underline;
+.logo-pixel {
+  font-size: 1.4rem;
+}
+.logo-text {
+  color: var(--gold-accent);
+  font-family: var(--font-pixel);
+  font-size: 0.65rem;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.85rem;
+}
+.nav a.active {
+  color: var(--gold-accent);
+}
+.btn-logout {
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+.btn-logout:hover {
+  color: var(--danger);
+  background: none;
 }
