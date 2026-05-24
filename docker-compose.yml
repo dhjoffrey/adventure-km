@@ -1,0 +1,47 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: adventurekm
+      POSTGRES_USER: adventurekm
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./adventure-km-backend
+    depends_on:
+      - postgres
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_USERNAME: adventurekm
+      DB_PASSWORD: ${DB_PASSWORD:-changeme}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/adventurekm
+      APP_JWT_SECRET: ${JWT_SECRET:-change-this-in-production-must-be-at-least-256-bits-long-seriously}
+      APP_UPLOAD_DIR: /uploads
+    volumes:
+      - uploads_data:/uploads
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./adventure-km-frontend
+    depends_on:
+      - backend
+
+  nginx:
+    image: nginx:alpine
+    depends_on:
+      - backend
+      - frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - uploads_data:/uploads:ro
+
+volumes:
+  postgres_data:
+  uploads_data:
