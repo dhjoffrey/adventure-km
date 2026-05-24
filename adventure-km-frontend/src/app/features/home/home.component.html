@@ -1,4 +1,25 @@
-<div class="home">
-  <h2>Journal de bord pour vos activités oudoor mémorables</h2>
-  <p>Planifiez, Organisez, Partagez !</p>
+<div class="hero">
+  <div class="container hero-inner">
+    <h1 class="hero-title">
+      <span class="pixel-title">Adventure-KM</span>
+    </h1>
+    <p class="hero-sub">Trail · Ultra · Grandes randonnées — chaque kilomètre compte.</p>
+    @if (!auth.isLoggedIn()) {
+      <a routerLink="/adventures" class="btn-gold">Explorer les aventures</a>
+    } @else {
+      <a routerLink="/adventures/new" class="btn-gold">+ Nouvelle aventure</a>
+    }
+  </div>
+</div>
+
+<div class="container">
+  <h2 class="pixel-title section-title">Dernières aventures</h2>
+  <div class="adventure-grid">
+    @for (adventure of adventures(); track adventure.id) {
+      <app-adventure-card [adventure]="adventure" />
+    }
+  </div>
+  <div class="more-link">
+    <a routerLink="/adventures">Voir toutes les aventures →</a>
+  </div>
 </div>
