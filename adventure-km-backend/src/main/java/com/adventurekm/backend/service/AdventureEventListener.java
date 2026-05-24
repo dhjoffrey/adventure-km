@@ -3,13 +3,16 @@ package com.adventurekm.backend.service;
 import com.adventurekm.backend.model.Adventure;
 import com.adventurekm.backend.model.AdventurePublishedEvent;
 import com.adventurekm.backend.model.AdventureStatus;
+import com.adventurekm.backend.model.User;
 import com.adventurekm.backend.model.UserLevel;
 import com.adventurekm.backend.repository.AdventureRepository;
 import com.adventurekm.backend.repository.UserLevelRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,8 +25,8 @@ public class AdventureEventListener {
     private final UserLevelRepository userLevelRepository;
     private final LevelCalculationService levelCalculationService;
 
-    @EventListener
-    @Transactional
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onAdventurePublished(AdventurePublishedEvent event) {
         Long userId = event.adventure().getUser().getId();
 
@@ -47,7 +50,10 @@ public class AdventureEventListener {
         int level = levelCalculationService.calculateLevel(score);
 
         UserLevel userLevel = userLevelRepository.findById(userId)
-                .orElseThrow();
+                .orElseGet(() -> {
+                    User user = event.adventure().getUser();
+                    return userLevelRepository.save(UserLevel.builder().user(user).build());
+                });
         userLevel.setTotalKm(totalKm);
         userLevel.setTotalElevationM(totalElevation);
         userLevel.setAdventureCount(count);
