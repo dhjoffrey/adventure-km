@@ -1,0 +1,80 @@
+<div class="container">
+  <h1 class="pixel-title">{{ editId ? 'Modifier' : 'Nouvelle aventure' }}</h1>
+
+  @if (error()) {
+    <div class="error-msg">{{ error() }}</div>
+  }
+
+  <div class="steps-indicator">
+    <span [class.active]="step() === 1">1. Contenu</span>
+    <span [class.active]="step() === 2">2. GPX</span>
+    <span [class.active]="step() === 3">3. Photos</span>
+  </div>
+
+  @if (step() === 1) {
+    <form (ngSubmit)="saveMetadata()" class="form-section">
+      <div class="field">
+        <label>Titre</label>
+        <input [(ngModel)]="title" name="title" required />
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" [(ngModel)]="date" name="date" required />
+        </div>
+        <div class="field">
+          <label>Type</label>
+          <select [(ngModel)]="type" name="type">
+            <option value="">—</option>
+            <option value="trail">Trail</option>
+            <option value="hike">Randonnée</option>
+            <option value="ultra">Ultra</option>
+            <option value="race">Course</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Difficulté (1-5)</label>
+          <input type="number" [(ngModel)]="difficulty" name="difficulty" min="1" max="5" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Contenu (Markdown)</label>
+        <textarea [(ngModel)]="content" name="content" rows="15" required></textarea>
+      </div>
+
+      <div class="field">
+        <label class="pixel-title">Équipement</label>
+        <div class="equipment-selector">
+          @for (item of equipment(); track item.id) {
+            <button type="button"
+                    [class.selected]="isSelected(item.id)"
+                    (click)="toggleEquipment(item.id)">
+              {{ item.name }}
+            </button>
+          }
+        </div>
+      </div>
+
+      <button type="submit" class="btn-gold">Sauvegarder et continuer</button>
+    </form>
+  }
+
+  @if (step() === 2) {
+    <div class="form-section">
+      <h2>Fichier GPX (optionnel)</h2>
+      <input type="file" accept=".gpx" (change)="onGpxSelected($event)" />
+      <button (click)="step.set(3)" class="btn" style="margin-top: 16px;">Passer</button>
+    </div>
+  }
+
+  @if (step() === 3) {
+    <div class="form-section">
+      <h2>Photos (max 5, optionnel)</h2>
+      <input type="file" accept="image/*" (change)="onPhotoSelected($event)" />
+      <div style="margin-top: 24px; display: flex; gap: 12px;">
+        <button (click)="publish()" class="btn-gold">Publier</button>
+        <button (click)="router.navigate(['/adventures', savedId()])" class="btn">Garder en brouillon</button>
+      </div>
+    </div>
+  }
+</div>

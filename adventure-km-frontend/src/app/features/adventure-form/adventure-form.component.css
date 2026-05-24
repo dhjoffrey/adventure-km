@@ -1,0 +1,50 @@
+h1 { margin-bottom: 24px; }
+.steps-indicator {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 32px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.steps-indicator .active {
+  color: var(--gold-accent);
+  font-weight: 700;
+}
+.form-section {
+  max-width: 700px;
+}
+.field { margin-bottom: 16px; }
+.field label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.field-row {
+  display: flex;
+  gap: 16px;
+}
+.field-row .field { flex: 1; }
+textarea {
+  resize: vertical;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+}
+.equipment-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.equipment-selector button {
+  font-size: 0.75rem;
+  padding: 6px 12px;
+}
+.equipment-selector button.selected {
+  background: var(--gold-accent);
+  color: var(--bg-deep);
+  border-color: var(--gold-accent);
+}
+.error-msg {
+  color: var(--danger);
+  margin-bottom: 16px;
+}
