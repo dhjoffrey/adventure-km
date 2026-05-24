@@ -4,6 +4,7 @@ import com.adventurekm.backend.dto.request.AdventureCreateRequest;
 import com.adventurekm.backend.dto.request.AdventureUpdateRequest;
 import com.adventurekm.backend.dto.response.AdventureResponse;
 import com.adventurekm.backend.dto.response.AdventureSummaryResponse;
+import com.adventurekm.backend.dto.response.GpxDataResponse;
 import com.adventurekm.backend.service.AdventureService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,11 @@ public class AdventureController {
     public AdventureResponse publish(@PathVariable Long id,
                                      @AuthenticationPrincipal UserDetails user) {
         return adventureService.publish(id, user.getUsername());
+    }
+
+    @GetMapping("/{id}/gpx/data")
+    public GpxDataResponse getGpxData(@PathVariable Long id) {
+        return adventureService.getGpxData(id);
     }
 
     @PostMapping("/{id}/gpx")

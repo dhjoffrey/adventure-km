@@ -23,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -191,5 +194,20 @@ public class AdventureService {
         photoRepository.save(photo);
 
         return adventureMapper.toResponse(adventureRepository.findById(id).orElseThrow());
+    }
+
+    @Transactional(readOnly = true)
+    public GpxDataResponse getGpxData(Long id) {
+        Adventure adventure = adventureRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Adventure", id));
+        if (adventure.getGpxPath() == null) {
+            throw new ResourceNotFoundException("GPX", id);
+        }
+        Path gpxFile = fileStorageService.resolve(adventure.getGpxPath());
+        try (InputStream is = Files.newInputStream(gpxFile)) {
+            return gpxProcessingService.process(is);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read GPX file", e);
+        }
     }
 }

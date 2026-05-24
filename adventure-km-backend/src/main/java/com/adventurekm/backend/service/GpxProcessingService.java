@@ -66,14 +66,14 @@ public class GpxProcessingService {
                 double segmentMeters = Geoid.WGS84.distance(prev, p).doubleValue();
                 totalDistanceMeters += segmentMeters;
 
-                // Elevation gain/loss
+                // Elevation gain/loss — 5m threshold to filter GPS noise
                 double prevEle = prev.getElevation()
                         .map(io.jenetics.jpx.Length::doubleValue)
                         .orElse(0.0);
                 double diff = ele - prevEle;
-                if (diff > 0) {
+                if (diff > 5.0) {
                     elevationGain += (int) diff;
-                } else {
+                } else if (diff < -5.0) {
                     elevationLoss += (int) Math.abs(diff);
                 }
             }

@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 import {
   AdventureResponse,
   AdventureSummaryResponse,
-  AdventureCreateRequest
+  AdventureCreateRequest,
+  GpxDataResponse
 } from '../models/adventure.model';
 
 @Injectable({ providedIn: 'root' })
@@ -44,6 +45,10 @@ export class AdventureApiService {
     formData.append('file', file);
     formData.append('caption', caption);
     return this.http.post<AdventureResponse>(`${this.API}/${id}/photos`, formData);
+  }
+
+  getGpxData(id: number): Observable<GpxDataResponse> {
+    return this.http.get<GpxDataResponse>(`${this.API}/${id}/gpx/data`);
   }
 
   delete(id: number): Observable<void> {
