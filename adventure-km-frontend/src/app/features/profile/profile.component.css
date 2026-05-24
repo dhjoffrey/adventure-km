@@ -1,0 +1,54 @@
+.rpg-sheet {
+  margin-bottom: 40px;
+}
+.sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+.sheet-info h1 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.level-badge {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--green-primary);
+  background: var(--green-glow);
+  padding: 4px 12px;
+  display: inline-block;
+}
+.xp-bar-container {
+  position: relative;
+  height: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+.xp-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green-dim), var(--green-primary));
+  transition: width 0.5s ease;
+}
+.xp-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.stats-grid {
+  display: flex;
+  gap: 24px;
+}
+.section-title {
+  margin-bottom: 20px;
+}
+.adventure-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}

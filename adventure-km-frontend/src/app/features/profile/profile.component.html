@@ -1,0 +1,32 @@
+@if (profile(); as p) {
+  <div class="container profile-page">
+    <div class="rpg-sheet card pixel-border">
+      <div class="sheet-header">
+        <app-pixel-avatar [spriteId]="p.avatarSpriteId" [size]="96" />
+        <div class="sheet-info">
+          <h1 class="pixel-title">{{ p.username }}</h1>
+          <div class="level-badge">Niveau {{ p.level }}</div>
+        </div>
+      </div>
+
+      <div class="xp-bar-container">
+        <div class="xp-bar" [style.width.%]="xpProgress()"></div>
+        <span class="xp-label">{{ p.rpgScore }} XP</span>
+      </div>
+
+      <div class="stats-grid">
+        <app-stat-badge [value]="p.totalKm + ' km'" label="Distance totale" />
+        <app-stat-badge [value]="p.totalElevationM + ' m'" label="D+ total" />
+        <app-stat-badge [value]="p.adventureCount" label="Aventures" />
+        <app-stat-badge [value]="p.rpgScore" label="Score RPG" />
+      </div>
+    </div>
+
+    <h2 class="pixel-title section-title">Aventures</h2>
+    <div class="adventure-grid">
+      @for (adventure of adventures(); track adventure.id) {
+        <app-adventure-card [adventure]="adventure" />
+      }
+    </div>
+  </div>
+}
