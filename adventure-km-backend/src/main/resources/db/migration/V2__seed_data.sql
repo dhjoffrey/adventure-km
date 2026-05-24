@@ -31,7 +31,7 @@ Le GR54 est une boucle mythique autour du massif des Écrins. Départ de Bourg-d
 Météo globalement favorable avec deux jours de pluie. Sentiers bien balisés, quelques passages exposés nécessitant de l''attention.
 
 > *"La montagne n''est ni juste ni injuste, elle est dangereuse."* — Reinhold Messner',
-        'trail', 4, 'PUBLISHED');
+        'ultra', 5, 'PUBLISHED');
 
 -- UTOBI — Ultra Tour du Beaufortain et de l'Italie
 INSERT INTO adventures (id, user_id, title, date, content, type, difficulty, status)
@@ -53,7 +53,7 @@ Départ à 18h de Beaufort. Les premiers kilomètres se font en groupe, dans une
 Ne jamais sous-estimer la nutrition. Prévoir 300 kcal/h minimum sur un effort de plus de 15h.
 
 > *"L''ultra, c''est 50% physique et 100% mental."*',
-        'ultra', 5, 'PUBLISHED');
+        'race', 4, 'PUBLISHED');
 
 -- UT4M — Ultra Tour des 4 Massifs
 INSERT INTO adventures (id, user_id, title, date, content, type, difficulty, status)
@@ -75,7 +75,7 @@ Départ de Grenoble-Bastille, montée vers le col de l''Arc, traversée des crê
 Objectif atteint : terminer sous les 6h. Bonne gestion de course, alimentation régulière.
 
 > *"Chaque kilomètre est un pas de plus vers la version de toi que tu veux devenir."*',
-        'trail', 3, 'PUBLISHED');
+        'ultra', 5, 'PUBLISHED');
 
 -- ---- 4. Adventure stats ----
 
@@ -91,24 +91,17 @@ VALUES (2, 105.00, 7500, 7500, 1440, 2469, 750);
 INSERT INTO adventure_stats (adventure_id, distance_km, elevation_gain_m, elevation_loss_m, duration_minutes, max_altitude_m, min_altitude_m)
 VALUES (3, 42.00, 2500, 2500, 350, 1700, 210);
 
--- Missing ~44 km to reach 367 total — adjust GR54 to 220 km for totals
--- Actually let's keep the adventures authentic and adjust totals:
--- Total: 176 + 105 + 42 = 323 km, D+: 12000 + 7500 + 2500 = 22000
--- Task says 367 km and 22000 D+, so GR54 should be 220 km
-UPDATE adventure_stats SET distance_km = 220.00 WHERE adventure_id = 1;
-
 -- ---- 5. Update user levels with totals ----
--- total_km = 220 + 105 + 42 = 367
+-- total_km = 176 + 105 + 42 = 323
 -- total_elevation_m = 12000 + 7500 + 2500 = 22000
--- adventure_count = 3
--- rpg_score = (367 * 1) + (22000 / 100 * 2) + (3 * 50) = 367 + 440 + 150 = 957
--- level = floor(sqrt(957 / 10)) = floor(sqrt(95.7)) = floor(9.78) = 9
+-- rpg_score = (323 * 1) + (22000 / 100 * 2) + (3 * 50) = 323 + 440 + 150 = 913
+-- level = floor(sqrt(913 / 10)) = floor(9.56) = 9
 UPDATE user_levels
-SET total_km         = 367.00,
+SET total_km          = 323.00,
     total_elevation_m = 22000,
-    adventure_count  = 3,
-    rpg_score        = 957,
-    level            = 9
+    adventure_count   = 3,
+    rpg_score         = 913,
+    level             = 9
 WHERE user_id = 1;
 
 -- ---- 6. Equipment items ----
@@ -142,3 +135,10 @@ INSERT INTO adventure_equipment (adventure_id, equipment_id) VALUES
 -- UT4M 40: Speedgoat, ADV Skin 5, Buff, Julbo, Pace 3
 INSERT INTO adventure_equipment (adventure_id, equipment_id) VALUES
 (3, 1), (3, 4), (3, 7), (3, 9), (3, 12);
+
+-- ---- 8. Reset identity sequences ----
+-- Explicit IDs were used above; reset so app-generated rows don't collide with seed data
+ALTER TABLE users ALTER COLUMN id RESTART WITH 100;
+ALTER TABLE adventures ALTER COLUMN id RESTART WITH 100;
+ALTER TABLE adventure_stats ALTER COLUMN id RESTART WITH 100;
+ALTER TABLE equipment_items ALTER COLUMN id RESTART WITH 100;

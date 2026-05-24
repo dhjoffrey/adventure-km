@@ -57,7 +57,7 @@ CREATE TABLE adventure_stats (
     distance_km     DECIMAL(8,2)  NOT NULL,
     elevation_gain_m  INT         NOT NULL,
     elevation_loss_m  INT         NOT NULL,
-    duration_minutes  INT         NOT NULL,
+    duration_minutes  INT,
     max_altitude_m    INT,
     min_altitude_m    INT,
 
