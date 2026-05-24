@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -49,6 +50,13 @@ public class AdventureController {
     public AdventureResponse publish(@PathVariable Long id,
                                      @AuthenticationPrincipal UserDetails user) {
         return adventureService.publish(id, user.getUsername());
+    }
+
+    @PostMapping("/{id}/gpx")
+    public AdventureResponse uploadGpx(@PathVariable Long id,
+                                        @AuthenticationPrincipal UserDetails user,
+                                        @RequestParam("file") MultipartFile file) {
+        return adventureService.processGpx(id, user.getUsername(), file);
     }
 
     @DeleteMapping("/{id}")

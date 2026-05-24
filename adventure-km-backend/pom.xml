@@ -18,7 +18,7 @@
         <java.version>17</java.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <jjwt.version>0.12.6</jjwt.version>
-        <jpx.version>4.0.0</jpx.version>
+        <jpx.version>3.2.1</jpx.version>
     </properties>
 
     <dependencies>

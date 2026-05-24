@@ -4,6 +4,7 @@ import com.adventurekm.backend.dto.request.AdventureCreateRequest;
 import com.adventurekm.backend.dto.request.AdventureUpdateRequest;
 import com.adventurekm.backend.dto.response.AdventureResponse;
 import com.adventurekm.backend.dto.response.AdventureSummaryResponse;
+import com.adventurekm.backend.dto.response.GpxDataResponse;
 import com.adventurekm.backend.exception.BadRequestException;
 import com.adventurekm.backend.exception.ForbiddenException;
 import com.adventurekm.backend.exception.ResourceNotFoundException;
@@ -16,7 +17,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +34,8 @@ public class AdventureService {
     private final EquipmentItemRepository equipmentItemRepository;
     private final AdventureMapper adventureMapper;
     private final ApplicationEventPublisher eventPublisher;
+    private final GpxProcessingService gpxProcessingService;
+    private final FileStorageService fileStorageService;
 
     @Transactional(readOnly = true)
     public List<AdventureSummaryResponse> listPublished() {
@@ -118,5 +124,41 @@ public class AdventureService {
             throw new BadRequestException("Not authorized to delete this adventure");
         }
         adventureRepository.delete(adventure);
+    }
+
+    @Transactional
+    public AdventureResponse processGpx(Long id, String username, MultipartFile file) {
+        Adventure adventure = adventureRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Adventure", id));
+        if (!adventure.getUser().getUsername().equals(username)) {
+            throw new ForbiddenException("Not authorized to upload GPX for this adventure");
+        }
+
+        GpxDataResponse gpxData = gpxProcessingService.process(toInputStream(file));
+
+        AdventureStats stats = adventure.getStats();
+        if (stats == null) {
+            stats = new AdventureStats();
+            stats.setAdventure(adventure);
+            adventure.setStats(stats);
+        }
+        stats.setDistanceKm(gpxData.distanceKm());
+        stats.setElevationGainM(gpxData.elevationGainM());
+        stats.setElevationLossM(gpxData.elevationLossM());
+        stats.setDurationMinutes(gpxData.durationMinutes());
+        stats.setMaxAltitudeM(gpxData.maxAltitudeM());
+        stats.setMinAltitudeM(gpxData.minAltitudeM());
+
+        String gpxPath = fileStorageService.saveGpx(id, file);
+        adventure.setGpxPath(gpxPath);
+        adventure.setUpdatedAt(LocalDateTime.now());
+
+        adventure = adventureRepository.save(adventure);
+        return adventureMapper.toResponse(adventure);
+    }
+
+    private InputStream toInputStream(MultipartFile file) {
+        try { return file.getInputStream(); }
+        catch (IOException e) { throw new RuntimeException(e); }
     }
 }
