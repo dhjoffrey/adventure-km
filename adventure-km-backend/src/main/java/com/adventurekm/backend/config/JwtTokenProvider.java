@@ -3,6 +3,7 @@ package com.adventurekm.backend.config;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import lombok.AccessLevel;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,7 @@ public class JwtTokenProvider {
     @Value("${app.jwt.refresh-token-expiration-ms}")
     private Long refreshTokenExpirationMs;
 
+    @Setter(AccessLevel.NONE)
     private SecretKey key;
 
     @PostConstruct
