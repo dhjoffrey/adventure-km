@@ -1,0 +1,29 @@
+<div class="container auth-page">
+  <div class="auth-card card pixel-border">
+    <h1 class="pixel-title">Inscription</h1>
+    @if (!invitationToken) {
+      <p class="error-msg">Lien d'invitation requis.</p>
+    } @else {
+      <form (ngSubmit)="onSubmit()">
+        @if (error()) {
+          <div class="error-msg">{{ error() }}</div>
+        }
+        <div class="field">
+          <label for="username">Nom d'utilisateur</label>
+          <input id="username" [(ngModel)]="username" name="username" required minlength="3" />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" [(ngModel)]="email" name="email" required />
+        </div>
+        <div class="field">
+          <label for="password">Mot de passe</label>
+          <input id="password" type="password" [(ngModel)]="password" name="password" required minlength="6" />
+        </div>
+        <button type="submit" class="btn-gold" [disabled]="loading()">
+          {{ loading() ? 'Inscription...' : 'Créer mon compte' }}
+        </button>
+      </form>
+    }
+  </div>
+</div>

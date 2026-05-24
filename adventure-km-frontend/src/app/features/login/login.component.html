@@ -1,0 +1,21 @@
+<div class="container auth-page">
+  <div class="auth-card card pixel-border">
+    <h1 class="pixel-title">Connexion</h1>
+    <form (ngSubmit)="onSubmit()">
+      @if (error()) {
+        <div class="error-msg">{{ error() }}</div>
+      }
+      <div class="field">
+        <label for="username">Nom d'utilisateur</label>
+        <input id="username" [(ngModel)]="username" name="username" required autocomplete="username" />
+      </div>
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" [(ngModel)]="password" name="password" required autocomplete="current-password" />
+      </div>
+      <button type="submit" class="btn-gold" [disabled]="loading()">
+        {{ loading() ? 'Connexion...' : 'Se connecter' }}
+      </button>
+    </form>
+  </div>
+</div>

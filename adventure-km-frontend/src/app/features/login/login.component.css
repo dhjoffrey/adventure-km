@@ -1,0 +1,32 @@
+.auth-page {
+  display: flex;
+  justify-content: center;
+  padding-top: 80px;
+}
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+}
+.auth-card h1 {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.field {
+  margin-bottom: 16px;
+}
+.field label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.error-msg {
+  color: var(--danger);
+  font-size: 0.8rem;
+  margin-bottom: 12px;
+  text-align: center;
+}
+button[type="submit"] {
+  width: 100%;
+  margin-top: 8px;
+}
