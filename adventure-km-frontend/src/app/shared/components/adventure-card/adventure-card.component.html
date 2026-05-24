@@ -1,0 +1,24 @@
+<a [routerLink]="['/adventures', adventure().id]" class="card adventure-card">
+  <div class="card-header">
+    <span class="adventure-type">{{ adventure().type ?? 'sortie' }}</span>
+    <span class="adventure-date">{{ adventure().date }}</span>
+  </div>
+  <h3 class="adventure-title">{{ adventure().title }}</h3>
+  @if (adventure().stats; as stats) {
+    <div class="card-stats">
+      <app-stat-badge [value]="stats.distanceKm + ' km'" label="Distance" />
+      <app-stat-badge [value]="stats.elevationGainM + ' m'" label="D+" />
+      @if (stats.durationMinutes) {
+        <app-stat-badge [value]="formatDuration(stats.durationMinutes)" label="Durée" />
+      }
+    </div>
+  }
+  @if (adventure().difficulty) {
+    <div class="difficulty">
+      @for (i of difficultyStars(); track i) {
+        <span class="star filled">★</span>
+      }
+    </div>
+  }
+  <div class="card-author">par {{ adventure().author.username }}</div>
+</a>

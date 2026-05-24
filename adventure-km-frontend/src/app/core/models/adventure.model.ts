@@ -5,7 +5,7 @@ export interface AdventureStatsResponse {
   distanceKm: number;
   elevationGainM: number;
   elevationLossM: number;
-  durationMinutes: number;
+  durationMinutes?: number;
   maxAltitudeM: number;
   minAltitudeM: number;
 }
@@ -21,11 +21,11 @@ export interface AdventureSummaryResponse {
   id: number;
   title: string;
   date: string;
-  type: string;
-  difficulty: number;
+  type?: string;
+  difficulty?: number;
   status: string;
   author: UserResponse;
-  stats: AdventureStatsResponse;
+  stats?: AdventureStatsResponse;
 }
 
 export interface AdventureResponse {
