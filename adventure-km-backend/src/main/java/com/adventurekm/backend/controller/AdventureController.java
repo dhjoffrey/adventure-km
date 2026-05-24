@@ -59,6 +59,15 @@ public class AdventureController {
         return adventureService.processGpx(id, user.getUsername(), file);
     }
 
+    @PostMapping("/{id}/photos")
+    @ResponseStatus(HttpStatus.CREATED)
+    public AdventureResponse uploadPhoto(@PathVariable Long id,
+                                          @AuthenticationPrincipal UserDetails user,
+                                          @RequestParam("file") MultipartFile file,
+                                          @RequestParam(defaultValue = "") String caption) {
+        return adventureService.addPhoto(id, user.getUsername(), file, caption);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id, @AuthenticationPrincipal UserDetails user) {

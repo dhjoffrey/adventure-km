@@ -10,8 +10,10 @@ import com.adventurekm.backend.exception.ForbiddenException;
 import com.adventurekm.backend.exception.ResourceNotFoundException;
 import com.adventurekm.backend.mapper.AdventureMapper;
 import com.adventurekm.backend.model.*;
+import com.adventurekm.backend.model.Photo;
 import com.adventurekm.backend.repository.AdventureRepository;
 import com.adventurekm.backend.repository.EquipmentItemRepository;
+import com.adventurekm.backend.repository.PhotoRepository;
 import com.adventurekm.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -36,6 +38,7 @@ public class AdventureService {
     private final ApplicationEventPublisher eventPublisher;
     private final GpxProcessingService gpxProcessingService;
     private final FileStorageService fileStorageService;
+    private final PhotoRepository photoRepository;
 
     @Transactional(readOnly = true)
     public List<AdventureSummaryResponse> listPublished() {
@@ -162,5 +165,31 @@ public class AdventureService {
 
         adventure = adventureRepository.save(adventure);
         return adventureMapper.toResponse(adventure);
+    }
+
+    @Transactional
+    public AdventureResponse addPhoto(Long id, String username, MultipartFile file, String caption) {
+        Adventure adventure = adventureRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Adventure", id));
+        if (!adventure.getUser().getUsername().equals(username)) {
+            throw new ForbiddenException("Not authorized to add photos to this adventure");
+        }
+        int currentCount = photoRepository.countByAdventureId(id);
+        if (currentCount >= 5) {
+            throw new BadRequestException("Maximum 5 photos per adventure");
+        }
+
+        int sortOrder = currentCount + 1;
+        String filePath = fileStorageService.savePhoto(id, file, sortOrder);
+
+        Photo photo = Photo.builder()
+                .adventure(adventure)
+                .filePath(filePath)
+                .caption(caption.isEmpty() ? null : caption)
+                .sortOrder(sortOrder)
+                .build();
+        photoRepository.save(photo);
+
+        return adventureMapper.toResponse(adventureRepository.findById(id).orElseThrow());
     }
 }
