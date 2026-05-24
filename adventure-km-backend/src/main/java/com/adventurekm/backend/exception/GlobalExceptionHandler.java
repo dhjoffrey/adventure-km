@@ -17,4 +17,9 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleBadRequest(BadRequestException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ProblemDetail handleForbidden(ForbiddenException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
+    }
 }

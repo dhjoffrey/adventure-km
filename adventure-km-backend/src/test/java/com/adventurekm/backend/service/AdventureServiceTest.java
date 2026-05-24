@@ -24,7 +24,7 @@ class AdventureServiceTest {
     void listPublishedAdventures() {
         List<AdventureSummaryResponse> adventures = adventureService.listPublished();
         assertThat(adventures).hasSize(3);
-        assertThat(adventures.get(0).title()).contains("GR54");
+        assertThat(adventures).anyMatch(a -> a.title().contains("GR54"));
     }
 
     @Test

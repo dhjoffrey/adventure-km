@@ -5,6 +5,7 @@ import com.adventurekm.backend.dto.request.AdventureUpdateRequest;
 import com.adventurekm.backend.dto.response.AdventureResponse;
 import com.adventurekm.backend.dto.response.AdventureSummaryResponse;
 import com.adventurekm.backend.exception.BadRequestException;
+import com.adventurekm.backend.exception.ForbiddenException;
 import com.adventurekm.backend.exception.ResourceNotFoundException;
 import com.adventurekm.backend.mapper.AdventureMapper;
 import com.adventurekm.backend.model.*;
@@ -33,7 +34,7 @@ public class AdventureService {
     @Transactional(readOnly = true)
     public List<AdventureSummaryResponse> listPublished() {
         return adventureMapper.toSummaryResponseList(
-                adventureRepository.findByStatusOrderByDateAsc(AdventureStatus.PUBLISHED));
+                adventureRepository.findByStatusOrderByDateDesc(AdventureStatus.PUBLISHED));
     }
 
     @Transactional(readOnly = true)
@@ -76,7 +77,7 @@ public class AdventureService {
         Adventure adventure = adventureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Adventure", id));
         if (!adventure.getUser().getUsername().equals(username)) {
-            throw new BadRequestException("Not authorized to edit this adventure");
+            throw new ForbiddenException("Not authorized to edit this adventure");
         }
 
         if (request.title() != null) adventure.setTitle(request.title());
