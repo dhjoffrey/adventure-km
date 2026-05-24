@@ -1,0 +1,124 @@
+<h2>Quel style visuel pour Adventure-KM ?</h2>
+<p class="subtitle">Le look global qui donnera le ton à tout le site</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="retro" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#1a0a2e;padding:16px;font-family:'Courier New',monospace;min-height:200px;position:relative;overflow:hidden;">
+      <!-- Pixel border decoration -->
+      <div style="position:absolute;top:0;left:0;right:0;height:4px;background:repeating-linear-gradient(90deg,#f0a500 0,#f0a500 8px,transparent 8px,transparent 16px);"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:4px;background:repeating-linear-gradient(90deg,#f0a500 0,#f0a500 8px,transparent 8px,transparent 16px);"></div>
+      <!-- Mock nav -->
+      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:center;">
+        <span style="color:#f0a500;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;">⚔ ADVENTURE-KM</span>
+        <span style="color:#888;font-size:9px;">| AVENTURES | HÉROS | CLASSEMENT |</span>
+      </div>
+      <!-- Mock hero -->
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <!-- Pixel avatar placeholder -->
+        <div style="width:48px;height:48px;background:#2d1a4e;border:2px solid #f0a500;display:flex;align-items:center;justify-content:center;flex-shrink:0;image-rendering:pixelated;">
+          <div style="width:24px;height:24px;background:linear-gradient(135deg,#e8c97e 50%,#b8935a 50%);border-radius:2px;"></div>
+        </div>
+        <div>
+          <div style="color:#f0a500;font-size:11px;font-weight:bold;text-shadow:0 0 8px #f0a500aa;letter-spacing:1px;">JOFFREY — LVL 42</div>
+          <div style="color:#888;font-size:9px;margin-top:2px;">⛰ 1 247 km d'aventures · 82 000m D+</div>
+          <div style="display:flex;gap:4px;margin-top:6px;">
+            <span style="background:#2d1a4e;border:1px solid #f0a500;color:#f0a500;font-size:8px;padding:2px 6px;">🥾 Salomon</span>
+            <span style="background:#2d1a4e;border:1px solid #888;color:#888;font-size:8px;padding:2px 6px;">🎒 Gilet</span>
+            <span style="background:#2d1a4e;border:1px solid #888;color:#888;font-size:8px;padding:2px 6px;">🥢 Bâtons</span>
+          </div>
+        </div>
+      </div>
+      <!-- Mock card -->
+      <div style="margin-top:10px;background:#2d1a4e;border:1px solid #f0a500;padding:8px;font-size:9px;">
+        <div style="color:#f0a500;font-weight:bold;font-size:10px;">📜 GR54 — Tour de l'Oisans</div>
+        <div style="color:#aaa;margin-top:3px;">200km · 12 000m D+ · 4,5 jours</div>
+        <div style="color:#666;margin-top:2px;font-style:italic;">"L'une des plus belles aventures..."</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Rétro / Pixel Fantasy</h3>
+      <p>Couleurs sombres, dorées et violettes façon vieux RPG. Police monospace, bordures pixelisées, avatar style sprite. Inspiré de l'ancien Dofus / Wakfu — immersif et unique.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="neo" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);padding:16px;min-height:200px;position:relative;overflow:hidden;">
+      <!-- Glow effect -->
+      <div style="position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,#3b82f620 0%,transparent 70%);"></div>
+      <!-- Mock nav -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <span style="color:#38bdf8;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;">ADVENTURE·KM</span>
+        <div style="display:flex;gap:10px;">
+          <span style="color:#64748b;font-size:9px;">Aventures</span>
+          <span style="color:#64748b;font-size:9px;">Profil</span>
+        </div>
+      </div>
+      <!-- Mock hero card -->
+      <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(56,189,248,0.2);border-radius:8px;padding:10px;display:flex;gap:10px;align-items:center;">
+        <div style="width:44px;height:44px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;box-shadow:0 0 12px #3b82f640;">🏔</div>
+        <div>
+          <div style="color:#f1f5f9;font-size:11px;font-weight:600;">Joffrey</div>
+          <div style="color:#38bdf8;font-size:9px;margin-top:1px;">1 247 km · 82 000m D+</div>
+          <div style="display:flex;gap:3px;margin-top:5px;">
+            <div style="height:3px;width:50px;background:linear-gradient(90deg,#3b82f6,#8b5cf6);border-radius:2px;"></div>
+            <div style="height:3px;width:20px;background:rgba(255,255,255,0.1);border-radius:2px;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Mock post card -->
+      <div style="margin-top:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:6px;padding:8px;">
+        <div style="color:#f1f5f9;font-size:10px;font-weight:500;">GR54 — Tour de l'Oisans</div>
+        <div style="display:flex;gap:8px;margin-top:4px;">
+          <span style="background:rgba(56,189,248,0.15);color:#38bdf8;font-size:8px;padding:2px 6px;border-radius:3px;">200km</span>
+          <span style="background:rgba(139,92,246,0.15);color:#a78bfa;font-size:8px;padding:2px 6px;border-radius:3px;">12k D+</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Neo / Dark 2.0</h3>
+      <p>Dark mode moderne, accents bleu-cyan et violet, glassmorphism, gradients subtils. Élégant, lisible, donne un look app/dashboard. Populaire dans les apps sport haut de gamme.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="hybrid" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0d1117;padding:16px;min-height:200px;position:relative;overflow:hidden;font-family:'Courier New',monospace;">
+      <!-- Top pixel bar -->
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#16a34a,#22c55e,#4ade80);"></div>
+      <!-- Nav -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <span style="color:#22c55e;font-size:10px;font-weight:bold;letter-spacing:2px;text-shadow:0 0 6px #22c55e80;">▶ ADVENTURE KM</span>
+        <div style="display:flex;gap:6px;">
+          <span style="background:#162013;border:1px solid #22c55e40;color:#22c55e;font-size:8px;padding:2px 6px;">CARTE</span>
+          <span style="color:#555;font-size:8px;padding:2px 6px;">PROFIL</span>
+        </div>
+      </div>
+      <!-- Avatar + Stats -->
+      <div style="display:flex;gap:10px;">
+        <div style="width:46px;height:46px;flex-shrink:0;position:relative;">
+          <!-- Pixel character suggestion -->
+          <div style="width:46px;height:46px;background:#162013;border:1px solid #22c55e;image-rendering:pixelated;display:flex;align-items:center;justify-content:center;font-size:22px;">🧍</div>
+          <div style="position:absolute;bottom:-2px;right:-2px;background:#22c55e;color:#000;font-size:7px;font-weight:bold;padding:1px 3px;">42</div>
+        </div>
+        <div>
+          <div style="color:#22c55e;font-size:11px;font-weight:bold;letter-spacing:1px;">JOFFREY</div>
+          <div style="color:#555;font-size:9px;margin-top:1px;">1247 km | 82k D+</div>
+          <!-- Pixel XP bar -->
+          <div style="margin-top:5px;height:5px;background:#162013;border:1px solid #22c55e40;width:80px;">
+            <div style="height:100%;width:65%;background:linear-gradient(90deg,#16a34a,#22c55e);"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Adventure card -->
+      <div style="margin-top:9px;background:#0a1a0a;border-left:2px solid #22c55e;padding:6px 8px;font-size:9px;">
+        <div style="color:#22c55e;font-weight:bold;">[ GR54 — TOUR DE L'OISANS ]</div>
+        <div style="color:#555;margin-top:2px;">200km · 12 000m D+ · ★★★★★</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>Hybride — Terminal Trail</h3>
+      <p>Noir profond, vert terminal, pixel art + données chiffrées. Mix entre un tracker sportif et un jeu rétro — comme si un GPS de trail avait une âme. Très original.</p>
+    </div>
+  </div>
+
+</div>

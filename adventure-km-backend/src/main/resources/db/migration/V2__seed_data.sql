@@ -31,7 +31,7 @@ Le GR54 est une boucle mythique autour du massif des Écrins. Départ de Bourg-d
 Météo globalement favorable avec deux jours de pluie. Sentiers bien balisés, quelques passages exposés nécessitant de l''attention.
 
 > *"La montagne n''est ni juste ni injuste, elle est dangereuse."* — Reinhold Messner',
-        'ultra', 5, 'PUBLISHED');
+        'ULTRA', 5, 'PUBLISHED');
 
 -- UTOBI — Ultra Tour du Beaufortain et de l'Italie
 INSERT INTO adventures (id, user_id, title, date, content, type, difficulty, status)
@@ -53,7 +53,7 @@ Départ à 18h de Beaufort. Les premiers kilomètres se font en groupe, dans une
 Ne jamais sous-estimer la nutrition. Prévoir 300 kcal/h minimum sur un effort de plus de 15h.
 
 > *"L''ultra, c''est 50% physique et 100% mental."*',
-        'race', 4, 'PUBLISHED');
+        'RACE', 4, 'PUBLISHED');
 
 -- UT4M — Ultra Tour des 4 Massifs
 INSERT INTO adventures (id, user_id, title, date, content, type, difficulty, status)
@@ -75,7 +75,7 @@ Départ de Grenoble-Bastille, montée vers le col de l''Arc, traversée des crê
 Objectif atteint : terminer sous les 6h. Bonne gestion de course, alimentation régulière.
 
 > *"Chaque kilomètre est un pas de plus vers la version de toi que tu veux devenir."*',
-        'ultra', 5, 'PUBLISHED');
+        'ULTRA', 5, 'PUBLISHED');
 
 -- ---- 4. Adventure stats ----
 
@@ -106,21 +106,21 @@ WHERE user_id = 1;
 
 -- ---- 6. Equipment items ----
 INSERT INTO equipment_items (id, name, category, icon_key, pixel_sprite_key) VALUES
-(1,  'Hoka Speedgoat 5',       'shoes',    'shoe',      'speedgoat'),
-(2,  'Salomon S/LAB Ultra 3',  'shoes',    'shoe',      'slab_ultra'),
-(3,  'Salomon ADV Skin 12',    'vest',     'vest',      'adv_skin'),
-(4,  'Salomon ADV Skin 5',     'vest',     'vest',      'adv_skin_5'),
-(5,  'Black Diamond Distance', 'poles',    'poles',     'bd_distance'),
-(6,  'Leki Ultratrail FX.One', 'poles',    'poles',     'leki_fx'),
-(7,  'Buff UV+',               'hat',      'hat',       'buff_uv'),
-(8,  'Salomon XA Cap',         'hat',      'hat',       'xa_cap'),
-(9,  'Julbo Aerospeed',        'glasses',  'glasses',   'aerospeed'),
-(10, 'Salomon XT 15',          'backpack', 'backpack',  'xt_15'),
-(11, 'Coros Apex 2 Pro',       'watch',    'watch',     'apex2pro'),
-(12, 'Coros Pace 3',           'watch',    'watch',     'pace3'),
-(13, 'Petzl Nao RL',           'other',    'headlamp',  'nao_rl'),
-(14, 'Compressport Full Socks','other',    'socks',     'compressport'),
-(15, 'Sea to Summit Nano',     'other',    'poncho',    'nano_poncho');
+(1,  'Hoka Speedgoat 5',       'SHOES',    'shoe',      'speedgoat'),
+(2,  'Salomon S/LAB Ultra 3',  'SHOES',    'shoe',      'slab_ultra'),
+(3,  'Salomon ADV Skin 12',    'VEST',     'vest',      'adv_skin'),
+(4,  'Salomon ADV Skin 5',     'VEST',     'vest',      'adv_skin_5'),
+(5,  'Black Diamond Distance', 'POLES',    'poles',     'bd_distance'),
+(6,  'Leki Ultratrail FX.One', 'POLES',    'poles',     'leki_fx'),
+(7,  'Buff UV+',               'HAT',      'hat',       'buff_uv'),
+(8,  'Salomon XA Cap',         'HAT',      'hat',       'xa_cap'),
+(9,  'Julbo Aerospeed',        'GLASSES',  'glasses',   'aerospeed'),
+(10, 'Salomon XT 15',          'BACKPACK', 'backpack',  'xt_15'),
+(11, 'Coros Apex 2 Pro',       'WATCH',    'watch',     'apex2pro'),
+(12, 'Coros Pace 3',           'WATCH',    'watch',     'pace3'),
+(13, 'Petzl Nao RL',           'OTHER',    'headlamp',  'nao_rl'),
+(14, 'Compressport Full Socks','OTHER',    'socks',     'compressport'),
+(15, 'Sea to Summit Nano',     'OTHER',    'poncho',    'nano_poncho');
 
 -- ---- 7. Adventure ↔ Equipment links ----
 

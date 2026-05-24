@@ -1,0 +1,114 @@
+<h2>Design — Section 2 : Pages & Navigation</h2>
+<p class="subtitle">7 pages principales — structure et contenu de chacune</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;">
+
+  <!-- Home -->
+  <div style="background:var(--bg);border:2px solid #f0a500;border-radius:4px;padding:12px;">
+    <div style="color:#f0a500;font-weight:bold;font-size:0.9em;margin-bottom:8px;">🏠 / — Accueil</div>
+    <div style="background:#0d1a0d;border:1px solid #1a3a1a;padding:8px;border-radius:3px;font-size:0.75em;font-family:monospace;color:#555;margin-bottom:8px;">
+      <div style="color:#22c55e;margin-bottom:4px;">[ DERNIÈRES AVENTURES — tous utilisateurs ]</div>
+      <div>▪ Card aventure 1 (user A)</div>
+      <div>▪ Card aventure 2 (user B)</div>
+      <div style="color:#22c55e;margin-top:6px;">[ CLASSEMENT AVENTURIERS ]</div>
+      <div>🥇 Joffrey — LVL 42 — 1247km</div>
+      <div>🥈 Alice   — LVL 31 — 890km</div>
+    </div>
+    <div style="color:var(--text-secondary);font-size:0.8em;">Feed des aventures récentes de tout le monde + widget classement RPG</div>
+  </div>
+
+  <!-- Profile -->
+  <div style="background:var(--bg);border:2px solid var(--accent);border-radius:4px;padding:12px;">
+    <div style="color:var(--accent);font-weight:bold;font-size:0.9em;margin-bottom:8px;">👤 /profile/:username — Fiche Aventurier</div>
+    <div style="background:#0d1a0d;border:1px solid #1a3a1a;padding:8px;border-radius:3px;font-size:0.75em;font-family:monospace;color:#555;margin-bottom:8px;">
+      <div style="color:#f0a500;">[ AVATAR PIXEL ART + ÉQUIPEMENTS ]</div>
+      <div style="color:#22c55e;">JOFFREY ⚔ LVL 42</div>
+      <div>━━━━━━━━━━ XP ▓▓▓▓▓▓▓░░ 78%</div>
+      <div style="margin-top:4px;color:#555;">1247km | 82000m D+ | 12 aventures</div>
+      <div style="color:#22c55e;margin-top:6px;">[ MES AVENTURES ]</div>
+      <div>▪ GR54 | ▪ UTOBI | ▪ UT4M...</div>
+    </div>
+    <div style="color:var(--text-secondary);font-size:0.8em;">Avatar pixel + équipements portés, stats RPG, barre XP, liste des aventures</div>
+  </div>
+
+  <!-- Adventure list -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;">
+    <div style="color:var(--accent);font-weight:bold;font-size:0.9em;margin-bottom:8px;">📜 /adventures — Liste des aventures</div>
+    <div style="background:#0d1a0d;border:1px solid #1a3a1a;padding:8px;border-radius:3px;font-size:0.75em;font-family:monospace;color:#555;margin-bottom:8px;">
+      <div style="color:#22c55e;">[ FILTRE : type | difficulté | user ]</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px;">
+        <div style="border:1px solid #1a3a1a;padding:4px;">
+          <div style="color:#f0a500;">GR54</div>
+          <div>200km · 12000D+</div>
+          <div>⭐⭐⭐⭐⭐</div>
+        </div>
+        <div style="border:1px solid #1a3a1a;padding:4px;">
+          <div style="color:#f0a500;">UTOBI</div>
+          <div>72km · 4200D+</div>
+          <div>⭐⭐⭐⭐</div>
+        </div>
+      </div>
+    </div>
+    <div style="color:var(--text-secondary);font-size:0.8em;">Grille de cards filtrables. Toutes les aventures publiées de tous les users.</div>
+  </div>
+
+  <!-- Adventure detail -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;">
+    <div style="color:var(--accent);font-weight:bold;font-size:0.9em;margin-bottom:8px;">⛰ /adventures/:id — Détail aventure</div>
+    <div style="background:#0d1a0d;border:1px solid #1a3a1a;padding:8px;border-radius:3px;font-size:0.75em;font-family:monospace;color:#555;margin-bottom:8px;">
+      <div style="color:#f0a500;">[ GR54 — Tour de l'Oisans ]</div>
+      <div style="color:#22c55e;">📍 Carte Leaflet (trace GPX)</div>
+      <div style="color:#22c55e;">📈 Profil altimétrique (Chart.js)</div>
+      <div>200km · 12000m D+ · 4j12h · ⭐⭐⭐⭐⭐</div>
+      <div style="color:#22c55e;margin-top:4px;">📸 Galerie photos (1-5)</div>
+      <div style="color:#22c55e;">🎒 Équipements utilisés</div>
+      <div>📝 Article / journal de bord</div>
+    </div>
+    <div style="color:var(--text-secondary);font-size:0.8em;">Page complète : carte + profil élév. + galerie + équipements + article texte</div>
+  </div>
+
+  <!-- Create/Edit adventure -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;">
+    <div style="color:var(--accent);font-weight:bold;font-size:0.9em;margin-bottom:8px;">✏ /adventures/new — Créer une aventure</div>
+    <div style="background:#0d1a0d;border:1px solid #1a3a1a;padding:8px;border-radius:3px;font-size:0.75em;font-family:monospace;color:#555;margin-bottom:8px;">
+      <div>Titre* + Date* + Type</div>
+      <div>Difficulté (1-5 ★)</div>
+      <div style="color:#22c55e;">↑ Upload GPX → stats auto</div>
+      <div style="color:#22c55e;">↑ Upload photos (max 5)</div>
+      <div>Sélection équipements</div>
+      <div>Éditeur texte (markdown)</div>
+      <div>[ Brouillon ] [ Publier ]</div>
+    </div>
+    <div style="color:var(--text-secondary);font-size:0.8em;">Form en étapes. GPX uploadé → stats calculées et affichées avant validation.</div>
+  </div>
+
+  <!-- Leaderboard -->
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:12px;">
+    <div style="color:var(--accent);font-weight:bold;font-size:0.9em;margin-bottom:8px;">🏆 /leaderboard — Classement</div>
+    <div style="background:#0d1a0d;border:1px solid #1a3a1a;padding:8px;border-radius:3px;font-size:0.75em;font-family:monospace;color:#555;margin-bottom:8px;">
+      <div style="color:#22c55e;">[ PAR : Score RPG | km | D+ | nb sorties ]</div>
+      <div style="color:#f0a500;margin-top:4px;">🥇 Joffrey — LVL 42 — Score 4821</div>
+      <div>🥈 Alice   — LVL 31 — Score 3102</div>
+      <div>🥉 Bob     — LVL 18 — Score 1750</div>
+      <div style="color:#22c55e;margin-top:6px;">[ Volume annuel Strava/Coros ]</div>
+      <div>Joffrey 2026 : 847km / 45000D+</div>
+    </div>
+    <div style="color:var(--text-secondary);font-size:0.8em;">Tableau switchable par critère. Section séparée pour le volume annuel via API externe.</div>
+  </div>
+
+  <!-- Admin -->
+  <div style="background:var(--bg);border:1px solid #f0a50040;border-radius:4px;padding:12px;">
+    <div style="color:#f0a500;font-weight:bold;font-size:0.9em;margin-bottom:8px;">⚙ /admin — Administration (rôle admin)</div>
+    <div style="background:#0d1a0d;border:1px solid #1a3a1a;padding:8px;border-radius:3px;font-size:0.75em;font-family:monospace;color:#555;margin-bottom:8px;">
+      <div>Invitations : générer un lien</div>
+      <div>Liste des users + rôles</div>
+      <div>Catalogue équipements (CRUD)</div>
+    </div>
+    <div style="color:var(--text-secondary);font-size:0.8em;">Page simple : générer des liens d'invitation + gérer le catalogue d'équipements.</div>
+  </div>
+
+</div>
+
+<div style="margin-top:14px;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:0.82em;color:var(--text-secondary);">
+  <strong style="color:var(--text);">Navigation :</strong> Header persistant avec logo pixel + liens principaux + avatar connecté. Routes protégées par JWT. <code>/admin</code> uniquement si rôle admin. <code>/adventures/new</code> et <code>/profile</code> nécessitent d'être connecté.
+</div>

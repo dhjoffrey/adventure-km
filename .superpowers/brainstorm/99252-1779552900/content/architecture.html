@@ -1,0 +1,72 @@
+<h2>Architecture — 3 approches</h2>
+<p class="subtitle">Comment organiser Spring Boot, Angular, la base de données et les fichiers sur le VPS</p>
+
+<div class="options">
+
+  <div class="option" data-choice="monolith" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Monolithe Spring Boot</h3>
+      <p style="font-size:0.85em;color:var(--text-secondary);margin:4px 0 8px;">Angular buildé et servi en ressources statiques par Spring. Un seul JAR à déployer.</p>
+      <div style="background:var(--bg);border:1px solid var(--border);padding:10px;border-radius:4px;font-family:monospace;font-size:0.75em;color:var(--text-secondary);margin-bottom:8px;">
+        <div style="color:var(--accent);">[ VPS ]</div>
+        <div style="margin-left:12px;">└── 🟢 spring-boot.jar (port 8080)</div>
+        <div style="margin-left:24px;">├── /api/** → REST controllers</div>
+        <div style="margin-left:24px;">└── /** → Angular dist/</div>
+        <div style="margin-left:12px;">└── 🐘 PostgreSQL (port 5432)</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>1 seul artifact</li><li>Déploiement simple</li><li>C'est ce qui est déjà esquissé</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Rebuild front = rebuild back</li><li>Coupling fort</li><li>Dev inconfortable</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="separated" onclick="toggleSelect(this)">
+    <div class="letter">B ★</div>
+    <div class="content">
+      <h3>API REST + SPA Angular + Nginx <span style="color:var(--accent);font-size:0.8em;">(Recommandé)</span></h3>
+      <p style="font-size:0.85em;color:var(--text-secondary);margin:4px 0 8px;">Spring Boot = API pure. Angular buildé servi par Nginx. Reverse proxy devant les deux.</p>
+      <div style="background:var(--bg);border:1px solid var(--border);padding:10px;border-radius:4px;font-family:monospace;font-size:0.75em;color:var(--text-secondary);margin-bottom:8px;">
+        <div style="color:var(--accent);">[ VPS ]</div>
+        <div style="margin-left:12px;">├── 🌐 Nginx (port 443/80)</div>
+        <div style="margin-left:24px;">├── / → Angular dist/</div>
+        <div style="margin-left:24px;">└── /api → Spring :8080</div>
+        <div style="margin-left:12px;">├── 🟢 Spring Boot (port 8080)</div>
+        <div style="margin-left:24px;">└── /api/** → REST</div>
+        <div style="margin-left:12px;">├── 🐘 PostgreSQL (port 5432)</div>
+        <div style="margin-left:12px;">└── 📁 /uploads/ (GPX + photos)</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Séparation claire front/back</li><li>Hot reload en dev</li><li>Pattern standard Angular+Spring</li><li>HTTPS naturel via Nginx</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>2 services à maintenir</li><li>Config Nginx à faire</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="docker" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Approche B + Docker Compose complet</h3>
+      <p style="font-size:0.85em;color:var(--text-secondary);margin:4px 0 8px;">Tout le stack orchestré avec Docker Compose. Déploiement en 1 commande sur le VPS.</p>
+      <div style="background:var(--bg);border:1px solid var(--border);padding:10px;border-radius:4px;font-family:monospace;font-size:0.75em;color:var(--text-secondary);margin-bottom:8px;">
+        <div style="color:var(--accent);">docker-compose.yml</div>
+        <div style="margin-left:12px;">├── 🌐 nginx (reverse proxy + SSL)</div>
+        <div style="margin-left:12px;">├── 🟢 backend (Spring Boot)</div>
+        <div style="margin-left:12px;">├── 🔵 frontend (Angular + Nginx)</div>
+        <div style="margin-left:12px;">├── 🐘 postgres</div>
+        <div style="margin-left:12px;">└── 📁 volumes (GPX, photos)</div>
+        <div style="margin-top:6px;color:var(--accent);">$ docker-compose up -d  ← déploiement complet</div>
+      </div>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Reproductible à 100%</li><li>Isolé de l'OS du VPS</li><li>Scale si besoin</li><li>Même env dev/prod</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Docker à installer</li><li>Setup initial plus long</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top:20px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:4px;font-size:0.85em;color:var(--text-secondary);">
+  <strong style="color:var(--text);">Ma recommandation : B ou C.</strong> B est le bon pattern pour un projet sérieux Spring+Angular. C est la version "tout packagé Docker" qui simplifie le déploiement VPS sur le long terme. Si tu veux déployer proprement sur un VPS et ne plus y penser, C est le meilleur investissement.
+</div>

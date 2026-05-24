@@ -55,7 +55,8 @@ public class Adventure {
     @Builder.Default
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @OneToOne(mappedBy = "adventure", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "adventure", cascade = CascadeType.ALL, orphanRemoval = true,
+              fetch = FetchType.LAZY)
     private AdventureStats stats;
 
     @OneToMany(mappedBy = "adventure", cascade = CascadeType.ALL, orphanRemoval = true)

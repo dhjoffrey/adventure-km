@@ -1,5 +1,5 @@
 package com.adventurekm.backend.model;
 
 public enum EquipmentCategory {
-    shoes, vest, poles, hat, glasses, backpack, watch, other
+    SHOES, VEST, POLES, HAT, GLASSES, BACKPACK, WATCH, OTHER
 }

@@ -45,7 +45,7 @@ CREATE TABLE adventures (
     updated_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_adventures_user FOREIGN KEY (user_id) REFERENCES users (id),
-    CONSTRAINT chk_adventures_type CHECK (type IN ('trail', 'hike', 'ultra', 'race')),
+    CONSTRAINT chk_adventures_type CHECK (type IN ('TRAIL', 'HIKE', 'ULTRA', 'RACE')),
     CONSTRAINT chk_adventures_difficulty CHECK (difficulty BETWEEN 1 AND 5),
     CONSTRAINT chk_adventures_status CHECK (status IN ('DRAFT', 'PUBLISHED'))
 );
@@ -85,7 +85,7 @@ CREATE TABLE equipment_items (
     icon_key         VARCHAR(50),
     pixel_sprite_key VARCHAR(50),
 
-    CONSTRAINT chk_equipment_category CHECK (category IN ('shoes', 'vest', 'poles', 'hat', 'glasses', 'backpack', 'watch', 'other'))
+    CONSTRAINT chk_equipment_category CHECK (category IN ('SHOES', 'VEST', 'POLES', 'HAT', 'GLASSES', 'BACKPACK', 'WATCH', 'OTHER'))
 );
 
 -- 7. Adventure ↔ Equipment (many-to-many)
