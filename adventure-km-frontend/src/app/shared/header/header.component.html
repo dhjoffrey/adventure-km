@@ -9,7 +9,7 @@
       <a routerLink="/leaderboard" routerLinkActive="active">Classement</a>
       @if (auth.isLoggedIn()) {
         <a routerLink="/adventures/new" routerLinkActive="active" class="btn-gold">+ Nouvelle</a>
-        <a [routerLink]="['/profile', auth.currentUsername()]" routerLinkActive="active">Profil</a>
+        <a [routerLink]="auth.currentUsername() ? ['/profile', auth.currentUsername()] : null" routerLinkActive="active">Profil</a>
         <button (click)="auth.logout()" class="btn-logout">Déconnexion</button>
       } @else {
         <a routerLink="/login" class="btn">Connexion</a>
