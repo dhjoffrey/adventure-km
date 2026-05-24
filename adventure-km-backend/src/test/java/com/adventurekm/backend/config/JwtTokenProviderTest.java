@@ -19,14 +19,14 @@ class JwtTokenProviderTest {
 
     @Test
     void generateAndValidateAccessToken() {
-        String token = jwtTokenProvider.generateAccessToken("joffrey");
+        String token = jwtTokenProvider.generateAccessToken("joffrey", "USER");
         assertThat(jwtTokenProvider.validateToken(token)).isTrue();
         assertThat(jwtTokenProvider.getUsernameFromToken(token)).isEqualTo("joffrey");
     }
 
     @Test
     void generateAndValidateRefreshToken() {
-        String token = jwtTokenProvider.generateRefreshToken("joffrey");
+        String token = jwtTokenProvider.generateRefreshToken("joffrey", "USER");
         assertThat(jwtTokenProvider.validateToken(token)).isTrue();
         assertThat(jwtTokenProvider.getUsernameFromToken(token)).isEqualTo("joffrey");
     }
@@ -35,7 +35,7 @@ class JwtTokenProviderTest {
     void expiredTokenIsInvalid() {
         jwtTokenProvider.setAccessTokenExpirationMs(0L);
         jwtTokenProvider.init();
-        String token = jwtTokenProvider.generateAccessToken("joffrey");
+        String token = jwtTokenProvider.generateAccessToken("joffrey", "USER");
         assertThat(jwtTokenProvider.validateToken(token)).isFalse();
     }
 

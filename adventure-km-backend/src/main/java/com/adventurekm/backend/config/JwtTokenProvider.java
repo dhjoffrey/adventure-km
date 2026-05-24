@@ -33,19 +33,20 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String generateAccessToken(String username) {
-        return buildToken(username, accessTokenExpirationMs, "access");
+    public String generateAccessToken(String username, String role) {
+        return buildToken(username, role, accessTokenExpirationMs, "access");
     }
 
-    public String generateRefreshToken(String username) {
-        return buildToken(username, refreshTokenExpirationMs, "refresh");
+    public String generateRefreshToken(String username, String role) {
+        return buildToken(username, role, refreshTokenExpirationMs, "refresh");
     }
 
-    private String buildToken(String username, long expirationMs, String type) {
+    private String buildToken(String username, String role, long expirationMs, String type) {
         Date now = new Date();
         return Jwts.builder()
                 .subject(username)
                 .claim("type", type)
+                .claim("role", role)
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + expirationMs))
                 .signWith(key)

@@ -30,9 +30,12 @@ public class AuthService {
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.username(), request.password()));
+        User user = userRepository.findByUsername(request.username())
+                .orElseThrow(() -> new BadRequestException("User not found"));
+        String role = user.getRole().name();
         return new AuthResponse(
-                jwtTokenProvider.generateAccessToken(request.username()),
-                jwtTokenProvider.generateRefreshToken(request.username()));
+                jwtTokenProvider.generateAccessToken(user.getUsername(), role),
+                jwtTokenProvider.generateRefreshToken(user.getUsername(), role));
     }
 
     @Transactional
@@ -57,8 +60,8 @@ public class AuthService {
         userLevelRepository.save(level);
 
         return new AuthResponse(
-                jwtTokenProvider.generateAccessToken(user.getUsername()),
-                jwtTokenProvider.generateRefreshToken(user.getUsername()));
+                jwtTokenProvider.generateAccessToken(user.getUsername(), user.getRole().name()),
+                jwtTokenProvider.generateRefreshToken(user.getUsername(), user.getRole().name()));
     }
 
     public AuthResponse refresh(String refreshToken) {
@@ -66,8 +69,11 @@ public class AuthService {
             throw new BadRequestException("Invalid refresh token");
         }
         String username = jwtTokenProvider.getUsernameFromToken(refreshToken);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new BadRequestException("User not found"));
+        String role = user.getRole().name();
         return new AuthResponse(
-                jwtTokenProvider.generateAccessToken(username),
-                jwtTokenProvider.generateRefreshToken(username));
+                jwtTokenProvider.generateAccessToken(username, role),
+                jwtTokenProvider.generateRefreshToken(username, role));
     }
 }

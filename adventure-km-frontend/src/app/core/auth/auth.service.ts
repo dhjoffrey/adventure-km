@@ -25,8 +25,6 @@ export class AuthService {
     }
   });
 
-  constructor() {}
-
   login(request: LoginRequest) {
     return this.http.post<AuthResponse>(`${this.API}/login`, request).pipe(
       tap(res => this.tokenStorage.saveTokens(res.accessToken, res.refreshToken))

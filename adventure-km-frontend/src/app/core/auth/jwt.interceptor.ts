@@ -19,6 +19,10 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
         return authService.refresh().pipe(
           switchMap(() => {
             const newToken = tokenStorage.getAccessToken();
+            if (!newToken) {
+              authService.logout();
+              return throwError(() => error);
+            }
             const retryReq = req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } });
             return next(retryReq);
           }),

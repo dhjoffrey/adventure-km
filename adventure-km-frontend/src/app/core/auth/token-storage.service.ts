@@ -18,19 +18,29 @@ export class TokenStorageService {
   }
 
   saveTokens(accessToken: string, refreshToken: string): void {
-    localStorage.setItem(this.ACCESS_KEY, accessToken);
-    localStorage.setItem(this.REFRESH_KEY, refreshToken);
+    this.setStored(this.ACCESS_KEY, accessToken);
+    this.setStored(this.REFRESH_KEY, refreshToken);
     this.accessTokenSignal.set(accessToken);
   }
 
   clear(): void {
-    localStorage.removeItem(this.ACCESS_KEY);
-    localStorage.removeItem(this.REFRESH_KEY);
+    this.removeStored(this.ACCESS_KEY);
+    this.removeStored(this.REFRESH_KEY);
     this.accessTokenSignal.set(null);
   }
 
   private getStored(key: string): string | null {
     if (typeof localStorage === 'undefined') return null;
     return localStorage.getItem(key);
+  }
+
+  private setStored(key: string, value: string): void {
+    if (typeof localStorage === 'undefined') return;
+    localStorage.setItem(key, value);
+  }
+
+  private removeStored(key: string): void {
+    if (typeof localStorage === 'undefined') return;
+    localStorage.removeItem(key);
   }
 }
