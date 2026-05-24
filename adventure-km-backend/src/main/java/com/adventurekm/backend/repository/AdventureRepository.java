@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface AdventureRepository extends JpaRepository<Adventure, Long> {
     List<Adventure> findByStatusOrderByDateDesc(AdventureStatus status);
-    List<Adventure> findByUserIdOrderByDateDesc(Long userId);
-    List<Adventure> findByUserIdAndStatusOrderByDateDesc(Long userId, AdventureStatus status);
+    List<Adventure> findByUser_IdOrderByDateDesc(Long userId);
+    List<Adventure> findByUser_IdAndStatusOrderByDateDesc(Long userId, AdventureStatus status);
 }

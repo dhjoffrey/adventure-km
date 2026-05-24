@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
     Optional<Invitation> findByToken(String token);
-    List<Invitation> findByInvitedById(Long userId);
+    List<Invitation> findByInvitedBy_Id(Long userId);
 }
