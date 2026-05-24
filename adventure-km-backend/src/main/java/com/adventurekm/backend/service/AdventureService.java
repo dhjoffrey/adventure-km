@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -134,7 +134,14 @@ public class AdventureService {
             throw new ForbiddenException("Not authorized to upload GPX for this adventure");
         }
 
-        GpxDataResponse gpxData = gpxProcessingService.process(toInputStream(file));
+        byte[] gpxBytes;
+        try {
+            gpxBytes = file.getBytes();
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read uploaded file", e);
+        }
+
+        GpxDataResponse gpxData = gpxProcessingService.process(new ByteArrayInputStream(gpxBytes));
 
         AdventureStats stats = adventure.getStats();
         if (stats == null) {
@@ -155,10 +162,5 @@ public class AdventureService {
 
         adventure = adventureRepository.save(adventure);
         return adventureMapper.toResponse(adventure);
-    }
-
-    private InputStream toInputStream(MultipartFile file) {
-        try { return file.getInputStream(); }
-        catch (IOException e) { throw new RuntimeException(e); }
     }
 }
