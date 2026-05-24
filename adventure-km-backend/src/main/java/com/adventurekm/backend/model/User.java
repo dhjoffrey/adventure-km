@@ -39,6 +39,10 @@ public class User {
     @Column(name = "coros_token")
     private String corosToken;
 
+    @Column(length = 10)
+    @Builder.Default
+    private String theme = "light";
+
     @Column(name = "created_at")
     @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();

@@ -59,4 +59,17 @@ public class UserController {
         user.setAvatarSpriteId(spriteId);
         return userMapper.toResponse(userRepository.save(user));
     }
+
+    @PatchMapping("/me/theme")
+    public void updateTheme(@AuthenticationPrincipal UserDetails userDetails,
+                            @RequestBody java.util.Map<String, String> body) {
+        String theme = body.get("theme");
+        if (!"light".equals(theme) && !"dark".equals(theme)) {
+            throw new com.adventurekm.backend.exception.BadRequestException("theme must be 'light' or 'dark'");
+        }
+        User user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("User", userDetails.getUsername()));
+        user.setTheme(theme);
+        userRepository.save(user);
+    }
 }

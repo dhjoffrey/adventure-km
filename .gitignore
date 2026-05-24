@@ -36,6 +36,9 @@ replay_pid*
 /application.properties
 /application.yml
 
+# Secrets
+.env
+
 # Superpowers plugin artifacts
 .superpowers/
 docs/superpowers/plans/

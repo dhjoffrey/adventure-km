@@ -16,6 +16,7 @@ public interface UserMapper {
 
     @Mapping(source = "user.username", target = "username")
     @Mapping(source = "user.avatarSpriteId", target = "avatarSpriteId")
+    @Mapping(source = "user.theme", target = "theme")
     UserLevelResponse toLevelResponse(UserLevel level);
 
     List<UserLevelResponse> toLevelResponseList(List<UserLevel> levels);

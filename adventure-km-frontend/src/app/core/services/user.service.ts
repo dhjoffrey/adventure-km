@@ -19,4 +19,8 @@ export class UserApiService {
   getLeaderboard(sortBy: string = 'score'): Observable<UserLevelResponse[]> {
     return this.http.get<UserLevelResponse[]>(`/api/leaderboard?sortBy=${sortBy}`);
   }
+
+  updateTheme(theme: string): Observable<void> {
+    return this.http.patch<void>('/api/users/me/theme', { theme });
+  }
 }

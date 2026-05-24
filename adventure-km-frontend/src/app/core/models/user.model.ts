@@ -14,6 +14,7 @@ export interface UserLevelResponse {
   adventureCount: number;
   rpgScore: number;
   level: number;
+  theme: string;
 }
 
 export interface AuthResponse {

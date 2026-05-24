@@ -18,7 +18,7 @@ class AuthServiceTest {
 
     @Test
     void loginWithSeedUser() {
-        AuthResponse response = authService.login(new LoginRequest("joffrey", "admin123"));
+        AuthResponse response = authService.login(new LoginRequest("joffrey", "123456"));
         assertThat(response.accessToken()).isNotBlank();
         assertThat(response.refreshToken()).isNotBlank();
     }

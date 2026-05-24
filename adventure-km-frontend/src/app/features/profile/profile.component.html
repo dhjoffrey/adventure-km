@@ -18,8 +18,17 @@
         <app-stat-badge [value]="p.totalKm + ' km'" label="Distance totale" />
         <app-stat-badge [value]="p.totalElevationM + ' m'" label="D+ total" />
         <app-stat-badge [value]="p.adventureCount" label="Aventures" />
-        <app-stat-badge [value]="p.rpgScore" label="Score RPG" />
+        <app-stat-badge [value]="p.rpgScore" label="Score" />
       </div>
+
+      @if (isOwnProfile()) {
+        <div class="theme-toggle">
+          <span class="theme-label">Thème</span>
+          <button class="theme-btn" (click)="themeService.toggle()">
+            {{ currentTheme() === 'light' ? '🌙 Passer en sombre' : '☀️ Passer en clair' }}
+          </button>
+        </div>
+      }
     </div>
 
     <h2 class="pixel-title section-title">Aventures</h2>
