@@ -34,7 +34,8 @@ public class UserController {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", username));
         return userMapper.toLevelResponse(
-                userLevelRepository.findById(user.getId()).orElseThrow());
+                userLevelRepository.findById(user.getId())
+                        .orElseThrow(() -> new ResourceNotFoundException("UserLevel", username)));
     }
 
     @GetMapping("/{username}/adventures")
@@ -49,8 +50,13 @@ public class UserController {
     @PutMapping("/me/avatar")
     public UserResponse updateAvatar(@AuthenticationPrincipal UserDetails userDetails,
                                      @RequestBody java.util.Map<String, Integer> body) {
-        User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
-        user.setAvatarSpriteId(body.get("avatarSpriteId"));
+        User user = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ResourceNotFoundException("User", userDetails.getUsername()));
+        Integer spriteId = body.get("avatarSpriteId");
+        if (spriteId == null) {
+            throw new com.adventurekm.backend.exception.BadRequestException("avatarSpriteId is required");
+        }
+        user.setAvatarSpriteId(spriteId);
         return userMapper.toResponse(userRepository.save(user));
     }
 }
