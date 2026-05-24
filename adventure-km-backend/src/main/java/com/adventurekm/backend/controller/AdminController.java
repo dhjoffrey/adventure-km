@@ -15,10 +15,12 @@ import com.adventurekm.backend.model.User;
 import com.adventurekm.backend.repository.EquipmentItemRepository;
 import com.adventurekm.backend.repository.UserRepository;
 import com.adventurekm.backend.service.InvitationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -70,7 +72,8 @@ public class AdminController {
 
     @PostMapping("/equipment")
     @ResponseStatus(HttpStatus.CREATED)
-    public EquipmentItemResponse createEquipment(@RequestBody EquipmentCreateRequest request) {
+    @Transactional
+    public EquipmentItemResponse createEquipment(@Valid @RequestBody EquipmentCreateRequest request) {
         EquipmentItem item = EquipmentItem.builder()
                 .name(request.name())
                 .category(EquipmentCategory.valueOf(request.category()))
@@ -82,6 +85,7 @@ public class AdminController {
 
     @DeleteMapping("/equipment/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     public void deleteEquipment(@PathVariable Long id) {
         if (!equipmentItemRepository.existsById(id)) {
             throw new ResourceNotFoundException("EquipmentItem", id);
