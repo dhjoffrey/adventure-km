@@ -1,3 +1,51 @@
+/* ── Avatar picker ─────────────────────────────────── */
+.avatar-wrapper {
+  position: relative;
+  flex-shrink: 0;
+}
+.avatar-wrapper.own app-pixel-avatar {
+  cursor: pointer;
+}
+.avatar-wrapper.own app-pixel-avatar:hover {
+  opacity: 0.85;
+}
+.avatar-hint {
+  display: block;
+  text-align: center;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.avatar-picker {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  padding: 12px;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  z-index: 1000;
+  width: min(340px, 90vw);
+}
+.pick-btn {
+  background: none;
+  border: 2px solid transparent;
+  padding: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s;
+  aspect-ratio: 1;
+  width: 100%;
+}
+.pick-btn:hover { border-color: var(--green-primary); background: none; color: inherit; }
+.pick-btn.selected { border-color: var(--gold-accent); }
+
+/* ── Sheet ─────────────────────────────────────────── */
 .rpg-sheet {
   margin-bottom: 40px;
 }

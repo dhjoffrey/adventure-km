@@ -61,8 +61,9 @@ public class AdventureController {
     @PostMapping("/{id}/gpx")
     public AdventureResponse uploadGpx(@PathVariable Long id,
                                         @AuthenticationPrincipal UserDetails user,
-                                        @RequestParam("file") MultipartFile file) {
-        return adventureService.processGpx(id, user.getUsername(), file);
+                                        @RequestParam("file") MultipartFile file,
+                                        @RequestParam(defaultValue = "false") boolean overwriteStats) {
+        return adventureService.processGpx(id, user.getUsername(), file, overwriteStats);
     }
 
     @PostMapping("/{id}/photos")

@@ -1,34 +1,30 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
   selector: 'app-pixel-avatar',
   standalone: true,
   template: `
-    <div class="pixel-avatar pixel-border" [style.width.px]="size()" [style.height.px]="size()">
-      <div class="sprite" [attr.data-sprite]="spriteId()">
-        <span class="avatar-char">{{ avatarChar() }}</span>
-      </div>
+    <div class="pixel-avatar" [style.width.px]="size()" [style.height.px]="size()">
+      <img [src]="spriteSrc()" [alt]="'Avatar ' + spriteId()" class="sprite-img" />
     </div>
   `,
   styles: [`
     .pixel-avatar {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      background: var(--bg-surface);
+      background: var(--bg-deep);
+      border-radius: 50%;
+      border: 2px solid var(--gold-accent);
+      overflow: hidden;
+    }
+    .sprite-img {
+      width: auto;
+      height: 142%;
+      margin-top: 4%;
+      object-fit: contain;
       image-rendering: pixelated;
-    }
-    .sprite {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 100%;
-    }
-    .avatar-char {
-      font-family: var(--font-pixel);
-      font-size: 2rem;
-      color: var(--gold-accent);
+      flex-shrink: 0;
     }
   `]
 })
@@ -36,8 +32,8 @@ export class PixelAvatarComponent {
   spriteId = input<number>(1);
   size = input<number>(96);
 
-  avatarChar(): string {
-    const chars = ['⚔', '🏔', '🗡', '🛡', '⚡', '🔥', '💎', '🌟', '👑', '🏆'];
-    return chars[(this.spriteId() - 1) % chars.length];
-  }
+  readonly spriteSrc = computed(() => {
+    const id = ((this.spriteId() - 1) % 10) + 1;
+    return `/avatars/avatar_${id}.png`;
+  });
 }

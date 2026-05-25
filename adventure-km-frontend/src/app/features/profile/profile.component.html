@@ -2,7 +2,27 @@
   <div class="container profile-page">
     <div class="rpg-sheet card pixel-border">
       <div class="sheet-header">
-        <app-pixel-avatar [spriteId]="p.avatarSpriteId" [size]="96" />
+
+        <div class="avatar-wrapper" [class.own]="isOwnProfile()">
+          <app-pixel-avatar [spriteId]="p.avatarSpriteId" [size]="116"
+            (click)="openPicker($event)" />
+          @if (isOwnProfile()) {
+            <span class="avatar-hint">Changer</span>
+          }
+
+          @if (pickerOpen()) {
+            <div class="avatar-picker" (click)="$event.stopPropagation()">
+              @for (id of avatarIds; track id) {
+                <button class="pick-btn"
+                  [class.selected]="p.avatarSpriteId === id"
+                  (click)="selectAvatar(id)">
+                  <app-pixel-avatar [spriteId]="id" [size]="44" />
+                </button>
+              }
+            </div>
+          }
+        </div>
+
         <div class="sheet-info">
           <h1 class="pixel-title">{{ p.username }}</h1>
           <div class="level-badge">Niveau {{ p.level }}</div>
@@ -23,7 +43,7 @@
 
       @if (isOwnProfile()) {
         <div class="theme-toggle">
-          <span class="theme-label">Thème</span>
+          <span class="theme-label">Theme</span>
           <button class="theme-btn" (click)="themeService.toggle()">
             {{ currentTheme() === 'light' ? '🌙 Passer en sombre' : '☀️ Passer en clair' }}
           </button>

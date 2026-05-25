@@ -4,5 +4,6 @@ import java.math.BigDecimal;
 
 public record AdventureStatsResponse(
     BigDecimal distanceKm, Integer elevationGainM, Integer elevationLossM,
-    Integer durationMinutes, Integer maxAltitudeM, Integer minAltitudeM
+    Integer durationMinutes, Integer maxAltitudeM, Integer minAltitudeM,
+    Integer avgAltitudeM
 ) {}

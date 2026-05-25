@@ -8,6 +8,7 @@ export interface AdventureStatsResponse {
   durationMinutes?: number;
   maxAltitudeM: number;
   minAltitudeM: number;
+  avgAltitudeM?: number;
 }
 
 export interface PhotoResponse {
@@ -52,6 +53,14 @@ export interface AdventureCreateRequest {
   equipmentIds?: number[];
 }
 
+export interface WaypointDto {
+  name: string;
+  lat: number;
+  lon: number;
+  altM: number;
+  distanceKm: number;
+}
+
 export interface GpxDataResponse {
   distanceKm: number;
   elevationGainM: number;
@@ -61,4 +70,5 @@ export interface GpxDataResponse {
   minAltitudeM: number;
   geojson: string;
   elevationPoints: { distanceKm: number; altitudeM: number }[];
+  waypoints: WaypointDto[];
 }

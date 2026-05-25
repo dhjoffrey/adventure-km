@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { Component, HostListener, OnInit, computed, inject, input, signal } from '@angular/core';
 import { UserApiService } from '../../core/services/user.service';
 import { UserLevelResponse } from '../../core/models/user.model';
 import { AdventureSummaryResponse } from '../../core/models/adventure.model';
@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   username = input.required<string>();
   profile = signal<UserLevelResponse | null>(null);
   adventures = signal<AdventureSummaryResponse[]>([]);
+  pickerOpen = signal(false);
 
   readonly auth = inject(AuthService);
   readonly themeService = inject(ThemeService);
@@ -26,16 +27,37 @@ export class ProfileComponent implements OnInit {
 
   readonly isOwnProfile = computed(() => this.auth.currentUsername() === this.username());
   readonly currentTheme = this.themeService.theme;
+  readonly avatarIds = [1,2,3,4,5,6,7,8,9,10];
 
   ngOnInit(): void {
     this.userApi.getProfile(this.username()).subscribe(p => {
       this.profile.set(p);
-      if (this.isOwnProfile()) {
-        this.themeService.applyFromProfile(p.theme);
-      }
+      if (this.isOwnProfile()) this.themeService.applyFromProfile(p.theme);
     });
     this.userApi.getUserAdventures(this.username()).subscribe(a => this.adventures.set(a));
   }
+
+  openPicker(event: Event): void {
+    if (!this.isOwnProfile()) return;
+    event.stopPropagation();
+    this.pickerOpen.update(v => !v);
+  }
+
+  selectAvatar(id: number): void {
+    const prev = this.profile();
+    this.profile.update(p => p ? { ...p, avatarSpriteId: id } : p);
+    this.pickerOpen.set(false);
+    this.userApi.updateAvatar(id).subscribe({
+      error: (err) => {
+        console.error('Avatar save failed:', err);
+        this.profile.set(prev);
+        this.pickerOpen.set(true);
+      }
+    });
+  }
+
+  @HostListener('document:click')
+  closePicker(): void { this.pickerOpen.set(false); }
 
   xpProgress(): number {
     const p = this.profile();

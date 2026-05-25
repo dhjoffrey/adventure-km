@@ -10,8 +10,11 @@ public record GpxDataResponse(
     Integer durationMinutes,
     Integer maxAltitudeM,
     Integer minAltitudeM,
+    Integer avgAltitudeM,
     String geojson,
-    List<ElevationPoint> elevationPoints
+    List<ElevationPoint> elevationPoints,
+    List<WaypointDto> waypoints
 ) {
     public record ElevationPoint(double distanceKm, double altitudeM) {}
+    public record WaypointDto(String name, double lat, double lon, double altM, double distanceKm) {}
 }

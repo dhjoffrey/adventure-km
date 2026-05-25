@@ -34,10 +34,10 @@ export class AdventureApiService {
     return this.http.post<AdventureResponse>(`${this.API}/${id}/publish`, {});
   }
 
-  uploadGpx(id: number, file: File): Observable<AdventureResponse> {
+  uploadGpx(id: number, file: File, overwriteStats = false): Observable<AdventureResponse> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<AdventureResponse>(`${this.API}/${id}/gpx`, formData);
+    return this.http.post<AdventureResponse>(`${this.API}/${id}/gpx?overwriteStats=${overwriteStats}`, formData);
   }
 
   uploadPhoto(id: number, file: File, caption: string): Observable<AdventureResponse> {

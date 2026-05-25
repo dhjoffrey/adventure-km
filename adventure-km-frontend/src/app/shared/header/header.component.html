@@ -1,16 +1,38 @@
 <header class="header">
   <div class="container header-inner">
     <a routerLink="/" class="logo">
-      <span class="logo-pixel">⚔</span>
-      <span class="logo-text">Adventure-KM</span>
+      <img src="/logo-tree.png" class="logo-icon" alt="tree" />
+      <span class="logo-title">ADVENTURE<span class="logo-km">-KM</span></span>
     </a>
     <nav class="nav">
       <a routerLink="/adventures" routerLinkActive="active">Aventures</a>
       <a routerLink="/leaderboard" routerLinkActive="active">Classement</a>
       @if (auth.isLoggedIn()) {
-        <a routerLink="/adventures/new" routerLinkActive="active" class="btn-gold">+ Nouvelle</a>
-        <a [routerLink]="auth.currentUsername() ? ['/profile', auth.currentUsername()] : null" routerLinkActive="active">Profil</a>
-        <button (click)="auth.logout()" class="btn-logout">Déconnexion</button>
+        <div class="user-menu">
+          <button class="avatar-btn" (click)="toggleMenu($event)" [class.open]="menuOpen()">
+            <app-pixel-avatar [spriteId]="userApi.currentAvatarSpriteId()" [size]="40" />
+          </button>
+          @if (menuOpen()) {
+            <div class="dropdown" (click)="$event.stopPropagation()">
+              <a [routerLink]="['/profile', auth.currentUsername()]" class="dropdown-item" (click)="menuOpen.set(false)">
+                Mon profil
+              </a>
+              <a routerLink="/adventures/new" class="dropdown-item highlight" (click)="menuOpen.set(false)">
+                + Nouvelle aventure
+              </a>
+              @if (auth.isAdmin()) {
+                <div class="dropdown-divider"></div>
+                <a routerLink="/admin" class="dropdown-item" (click)="menuOpen.set(false)">
+                  Administration
+                </a>
+              }
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item danger" (click)="auth.logout()">
+                Déconnexion
+              </button>
+            </div>
+          }
+        </div>
       } @else {
         <a routerLink="/login" class="btn">Connexion</a>
       }

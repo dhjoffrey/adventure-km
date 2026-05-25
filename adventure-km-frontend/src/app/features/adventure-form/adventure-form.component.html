@@ -1,5 +1,10 @@
 <div class="container">
-  <h1 class="pixel-title">{{ editId ? 'Modifier' : 'Nouvelle aventure' }}</h1>
+  <div class="form-page-header">
+    <h1 class="pixel-title">{{ editId ? 'Modifier' : 'Nouvelle aventure' }}</h1>
+    @if (editId) {
+      <button type="button" class="btn-delete-form" (click)="deleteModal.set(true)">Supprimer</button>
+    }
+  </div>
 
   @if (error()) {
     <div class="error-msg">{{ error() }}</div>
@@ -13,14 +18,16 @@
 
   @if (step() === 1) {
     <form (ngSubmit)="saveMetadata()" class="form-section">
-      <div class="field">
-        <label>Titre</label>
-        <input [(ngModel)]="title" name="title" required />
+      <div class="field" [class.field-error]="fieldErrors()['title']">
+        <label><span class="req">*</span> Titre</label>
+        <input [(ngModel)]="title" name="title" />
+        @if (fieldErrors()['title']) { <span class="field-error-msg">{{ fieldErrors()['title'] }}</span> }
       </div>
       <div class="field-row">
-        <div class="field">
-          <label>Date</label>
-          <input type="date" [(ngModel)]="date" name="date" required />
+        <div class="field" [class.field-error]="fieldErrors()['date']">
+          <label><span class="req">*</span> Date</label>
+          <input type="date" [(ngModel)]="date" name="date" />
+          @if (fieldErrors()['date']) { <span class="field-error-msg">{{ fieldErrors()['date'] }}</span> }
         </div>
         <div class="field">
           <label>Type</label>
@@ -37,13 +44,47 @@
           <input type="number" [(ngModel)]="difficulty" name="difficulty" min="1" max="5" />
         </div>
       </div>
-      <div class="field">
-        <label>Contenu (Markdown)</label>
-        <textarea [(ngModel)]="content" name="content" rows="15" required></textarea>
+      <div class="field-row">
+        <div class="field">
+          <label>Distance (km)</label>
+          <input type="number" [(ngModel)]="distanceKm" name="distanceKm" min="0" step="0.1" placeholder="ex: 42.5" />
+        </div>
+        <div class="field">
+          <label>Dénivelé positif (m)</label>
+          <input type="number" [(ngModel)]="elevationGainM" name="elevationGainM" min="0" placeholder="ex: 2200" />
+        </div>
+        <div class="field">
+          <label>Durée</label>
+          <div class="duration-inputs">
+            <input type="number" [(ngModel)]="durationHours" name="durationHours" min="0" placeholder="hh" class="duration-part" />
+            <span class="duration-sep">h</span>
+            <input type="number" [(ngModel)]="durationMins" name="durationMins" min="0" max="59" placeholder="mm" class="duration-part" />
+            <span class="duration-sep">min</span>
+          </div>
+        </div>
+      </div>
+      <div class="field" [class.field-error]="fieldErrors()['content']">
+        <label><span class="req">*</span> Contenu (Markdown)</label>
+        @if (fieldErrors()['content']) { <span class="field-error-msg">{{ fieldErrors()['content'] }}</span> }
+        <div class="md-toolbar">
+          <button type="button" (click)="insertMarkdown('# ')" title="Titre 1">H1</button>
+          <button type="button" (click)="insertMarkdown('## ')" title="Titre 2">H2</button>
+          <button type="button" (click)="insertMarkdown('### ')" title="Titre 3">H3</button>
+          <span class="tb-sep"></span>
+          <button type="button" (click)="insertMarkdown('**', '**')" title="Gras"><b>B</b></button>
+          <button type="button" (click)="insertMarkdown('*', '*')" title="Italique"><i>I</i></button>
+          <button type="button" (click)="insertMarkdown('~~', '~~')" title="Barré">S̶</button>
+          <span class="tb-sep"></span>
+          <button type="button" (click)="insertMarkdown('\`', '\`')" title="Code inline">&#96;c&#96;</button>
+          <button type="button" (click)="insertMarkdown('\n> ')" title="Citation">❝</button>
+          <button type="button" (click)="insertMarkdown('\n- ')" title="Liste à puces">•—</button>
+          <button type="button" (click)="insertMarkdown('\n\n---\n\n')" title="Séparateur">───</button>
+        </div>
+        <textarea #contentArea [(ngModel)]="content" name="content" rows="15" required></textarea>
       </div>
 
       <div class="field">
-        <label class="pixel-title">Équipement</label>
+        <label class="pixel-title">Equipement</label>
         <div class="equipment-selector">
           @for (item of equipment(); track item.id) {
             <button type="button"
@@ -55,15 +96,38 @@
         </div>
       </div>
 
-      <button type="submit" class="btn-gold">Sauvegarder et continuer</button>
+      <p class="required-note"><span class="req">*</span> Champs obligatoires</p>
+      <div style="display: flex; gap: 12px; align-items: center;">
+        <button type="submit" class="btn-gold">Sauvegarder et continuer</button>
+        @if (editId) {
+          <button type="button" class="btn" (click)="router.navigate(['/adventures', editId])">Annuler</button>
+        }
+      </div>
     </form>
   }
 
   @if (step() === 2) {
     <div class="form-section">
       <h2>Fichier GPX (optionnel)</h2>
-      <input type="file" accept=".gpx" (change)="onGpxSelected($event)" />
-      <button (click)="step.set(3)" class="btn" style="margin-top: 16px;">Passer</button>
+      <div class="gpx-upload-area">
+        <input type="file" accept=".gpx" (change)="onGpxSelected($event)" />
+        @if (gpxFile()) {
+          <div class="gpx-file-info">
+            <span class="gpx-filename">{{ gpxFile()!.name }}</span>
+          </div>
+          <label class="gpx-extract-toggle">
+            <input type="checkbox" [(ngModel)]="extractStats" name="extractStats" />
+            <span>Écraser les stats (km, D+) avec celles extraites du GPX</span>
+          </label>
+          <p class="gpx-extract-hint">Par défaut, vos valeurs manuelles sont conservées.</p>
+          <div class="gpx-actions">
+            <button type="button" class="btn-gold" (click)="uploadGpxAndContinue()">Uploader et continuer</button>
+            <button type="button" class="btn" (click)="step.set(3)">Passer</button>
+          </div>
+        } @else {
+          <button type="button" class="btn" style="margin-top: 16px;" (click)="step.set(3)">Passer</button>
+        }
+      </div>
     </div>
   }
 
@@ -78,3 +142,16 @@
     </div>
   }
 </div>
+
+@if (deleteModal()) {
+  <div class="modal-backdrop" (click)="deleteModal.set(false)">
+    <div class="modal-box" (click)="$event.stopPropagation()">
+      <p class="modal-title">Supprimer cette aventure ?</p>
+      <p class="modal-body">Cette action est irréversible. L'aventure, ses photos et sa trace GPX seront définitivement supprimés.</p>
+      <div class="modal-actions">
+        <button class="btn-delete-confirm" (click)="deleteAdventure()">Supprimer</button>
+        <button class="btn" (click)="deleteModal.set(false)">Annuler</button>
+      </div>
+    </div>
+  </div>
+}

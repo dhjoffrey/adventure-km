@@ -21,9 +21,10 @@ import java.util.Optional;
 public class GpxProcessingService {
 
     public GpxDataResponse process(InputStream inputStream) {
+        GPX gpx;
         List<WayPoint> points;
         try {
-            GPX gpx = GPX.Reader.DEFAULT.read(inputStream);
+            gpx = GPX.Reader.DEFAULT.read(inputStream);
             points = gpx.tracks()
                     .flatMap(Track::segments)
                     .flatMap(TrackSegment::points)
@@ -42,8 +43,11 @@ public class GpxProcessingService {
         int elevationLoss = 0;
         double maxAlt = Double.NEGATIVE_INFINITY;
         double minAlt = Double.POSITIVE_INFINITY;
+        double sumAlt = 0.0;
 
         List<GpxDataResponse.ElevationPoint> elevationPoints = new ArrayList<>();
+        // [lat, lon, cumDistKm] — used to match waypoints to track distance
+        List<double[]> trackCoords = new ArrayList<>();
 
         // GeoJSON coordinates array builder
         StringBuilder coordsBuilder = new StringBuilder();
@@ -59,6 +63,7 @@ public class GpxProcessingService {
             // Track altitude bounds
             if (ele > maxAlt) maxAlt = ele;
             if (ele < minAlt) minAlt = ele;
+            sumAlt += ele;
 
             // Cumulative distance
             if (i > 0) {
@@ -80,6 +85,7 @@ public class GpxProcessingService {
 
             double cumDistKm = totalDistanceMeters / 1000.0;
             elevationPoints.add(new GpxDataResponse.ElevationPoint(cumDistKm, ele));
+            trackCoords.add(new double[]{lat, lon, cumDistKm});
 
             // GeoJSON coordinate: [lon, lat, ele]
             if (i > 0) coordsBuilder.append(",");
@@ -103,8 +109,30 @@ public class GpxProcessingService {
                 + coordsBuilder
                 + "]},\"properties\":{}}";
 
+        // Extract <wpt> elements and project them onto the track distance
+        List<GpxDataResponse.WaypointDto> waypoints = gpx.wayPoints().map(wpt -> {
+            double wLat = wpt.getLatitude().doubleValue();
+            double wLon = wpt.getLongitude().doubleValue();
+            double wAlt = wpt.getElevation().map(io.jenetics.jpx.Length::doubleValue).orElse(0.0);
+            String name = wpt.getName().orElse("");
+            double bestCumDist = 0.0;
+            double bestDistSq = Double.MAX_VALUE;
+            for (double[] tc : trackCoords) {
+                double dlat = tc[0] - wLat;
+                double dlon = tc[1] - wLon;
+                double dSq = dlat * dlat + dlon * dlon;
+                if (dSq < bestDistSq) {
+                    bestDistSq = dSq;
+                    bestCumDist = tc[2];
+                }
+            }
+            return new GpxDataResponse.WaypointDto(name, wLat, wLon, wAlt, bestCumDist);
+        }).toList();
+
         BigDecimal distanceKm = BigDecimal.valueOf(totalDistanceMeters / 1000.0)
                 .setScale(2, RoundingMode.HALF_UP);
+
+        int avgAlt = (int) Math.round(sumAlt / points.size());
 
         return new GpxDataResponse(
                 distanceKm,
@@ -113,8 +141,10 @@ public class GpxProcessingService {
                 (int) durationMinutes,
                 (int) Math.round(maxAlt),
                 (int) Math.round(minAlt),
+                avgAlt,
                 geojson,
-                elevationPoints
+                elevationPoints,
+                waypoints
         );
     }
 }

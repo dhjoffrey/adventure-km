@@ -11,5 +11,8 @@ public record AdventureCreateRequest(
     @NotBlank String content,
     String type,
     Integer difficulty,
-    List<Long> equipmentIds
+    List<Long> equipmentIds,
+    java.math.BigDecimal distanceKm,
+    Integer elevationGainM,
+    Integer durationMinutes
 ) {}

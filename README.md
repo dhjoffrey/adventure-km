@@ -7,16 +7,19 @@ Journal de bord pour trail runners et randonneurs. Publiez vos sorties avec stat
 ## Fonctionnalités
 
 - **Aventures** — création, édition, publication avec contenu Markdown
-- **Import GPX** — calcul automatique distance, D+/D-, durée, altitude
-- **Carte interactive** — visualisation du tracé GPS (Leaflet)
+- **Import GPX** — calcul automatique distance, D+/D-, durée, altitude max/min
+- **Carte interactive** — visualisation du tracé GPS (Leaflet), bascule OSM / Topo, suivi curseur
+- **Profil d'élévation** — courbe interactive avec tooltip, sélection de segment (distance/D+/D-), waypoints GPX
+- **Téléchargement GPX** — export direct depuis la page aventure
 - **Photos** — jusqu'à 5 photos par aventure
 - **Classement** — tri par score, kilomètres, dénivelé ou nombre d'aventures
-- **Profil** — statistiques cumulées, barre de progression, niveau
+- **Profil** — statistiques cumulées, barre de progression, niveau RPG, avatar pixel art
 - **Thème clair/sombre** — persisté par compte utilisateur
 - **Invitations** — accès sur invitation uniquement
 
 ![Détail d'une aventure](docs/screenshots/adventure.png)
 ![Classement](docs/screenshots/leaderboard.png)
+![Profil](docs/screenshots/profile.png)
 
 ## Stack
 

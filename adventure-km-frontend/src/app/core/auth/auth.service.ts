@@ -25,6 +25,17 @@ export class AuthService {
     }
   });
 
+  readonly isAdmin = computed(() => {
+    const token = this.tokenStorage.getAccessToken();
+    if (!token) return false;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.role === 'ADMIN';
+    } catch {
+      return false;
+    }
+  });
+
   login(request: LoginRequest) {
     return this.http.post<AuthResponse>(`${this.API}/login`, request).pipe(
       tap(res => this.tokenStorage.saveTokens(res.accessToken, res.refreshToken))

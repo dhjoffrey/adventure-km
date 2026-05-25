@@ -56,6 +56,12 @@ public class AdventureService {
     }
 
     @Transactional(readOnly = true)
+    public List<AdventureSummaryResponse> listPublishedByUser(Long userId) {
+        return adventureMapper.toSummaryResponseList(
+                adventureRepository.findByUser_IdAndStatusOrderByDateDesc(userId, AdventureStatus.PUBLISHED));
+    }
+
+    @Transactional(readOnly = true)
     public AdventureResponse getById(Long id) {
         Adventure adventure = adventureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Adventure", id));
@@ -80,6 +86,15 @@ public class AdventureService {
             adventure.setEquipment(new HashSet<>(equipmentItemRepository.findAllById(request.equipmentIds())));
         }
 
+        if (request.distanceKm() != null || request.elevationGainM() != null || request.durationMinutes() != null) {
+            AdventureStats stats = new AdventureStats();
+            stats.setAdventure(adventure);
+            stats.setDistanceKm(request.distanceKm());
+            stats.setElevationGainM(request.elevationGainM());
+            stats.setDurationMinutes(request.durationMinutes());
+            adventure.setStats(stats);
+        }
+
         adventure = adventureRepository.save(adventure);
         return adventureMapper.toResponse(adventure);
     }
@@ -99,6 +114,17 @@ public class AdventureService {
         if (request.difficulty() != null) adventure.setDifficulty(request.difficulty());
         if (request.equipmentIds() != null) {
             adventure.setEquipment(new HashSet<>(equipmentItemRepository.findAllById(request.equipmentIds())));
+        }
+        if (request.distanceKm() != null || request.elevationGainM() != null || request.durationMinutes() != null) {
+            AdventureStats stats = adventure.getStats();
+            if (stats == null) {
+                stats = new AdventureStats();
+                stats.setAdventure(adventure);
+                adventure.setStats(stats);
+            }
+            if (request.distanceKm() != null) stats.setDistanceKm(request.distanceKm());
+            if (request.elevationGainM() != null) stats.setElevationGainM(request.elevationGainM());
+            if (request.durationMinutes() != null) stats.setDurationMinutes(request.durationMinutes());
         }
         adventure.setUpdatedAt(LocalDateTime.now());
 
@@ -129,11 +155,12 @@ public class AdventureService {
         if (!adventure.getUser().getUsername().equals(username)) {
             throw new ForbiddenException("Not authorized to delete this adventure");
         }
+        adventure.getEquipment().clear();
         adventureRepository.delete(adventure);
     }
 
     @Transactional
-    public AdventureResponse processGpx(Long id, String username, MultipartFile file) {
+    public AdventureResponse processGpx(Long id, String username, MultipartFile file, boolean overwriteStats) {
         Adventure adventure = adventureRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Adventure", id));
         if (!adventure.getUser().getUsername().equals(username)) {
@@ -147,20 +174,22 @@ public class AdventureService {
             throw new RuntimeException("Failed to read uploaded file", e);
         }
 
-        GpxDataResponse gpxData = gpxProcessingService.process(new ByteArrayInputStream(gpxBytes));
-
-        AdventureStats stats = adventure.getStats();
-        if (stats == null) {
-            stats = new AdventureStats();
-            stats.setAdventure(adventure);
-            adventure.setStats(stats);
+        if (overwriteStats) {
+            GpxDataResponse gpxData = gpxProcessingService.process(new ByteArrayInputStream(gpxBytes));
+            AdventureStats stats = adventure.getStats();
+            if (stats == null) {
+                stats = new AdventureStats();
+                stats.setAdventure(adventure);
+                adventure.setStats(stats);
+            }
+            stats.setDistanceKm(gpxData.distanceKm());
+            stats.setElevationGainM(gpxData.elevationGainM());
+            stats.setElevationLossM(gpxData.elevationLossM());
+            stats.setDurationMinutes(gpxData.durationMinutes());
+            stats.setMaxAltitudeM(gpxData.maxAltitudeM());
+            stats.setMinAltitudeM(gpxData.minAltitudeM());
+            stats.setAvgAltitudeM(gpxData.avgAltitudeM());
         }
-        stats.setDistanceKm(gpxData.distanceKm());
-        stats.setElevationGainM(gpxData.elevationGainM());
-        stats.setElevationLossM(gpxData.elevationLossM());
-        stats.setDurationMinutes(gpxData.durationMinutes());
-        stats.setMaxAltitudeM(gpxData.maxAltitudeM());
-        stats.setMinAltitudeM(gpxData.minAltitudeM());
 
         String gpxPath = fileStorageService.saveGpx(id, file);
         adventure.setGpxPath(gpxPath);

@@ -36,4 +36,7 @@ public class AdventureStats {
 
     @Column(name = "min_altitude_m")
     private Integer minAltitudeM;
+
+    @Column(name = "avg_altitude_m")
+    private Integer avgAltitudeM;
 }

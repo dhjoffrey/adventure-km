@@ -39,6 +39,24 @@ replay_pid*
 # Secrets
 .env
 
-# Superpowers plugin artifacts
+# Superpowers plugin artifacts and local docs
 .superpowers/
-docs/superpowers/plans/
+docs/
+
+# Eclipse project files
+.project
+.classpath
+.settings/
+
+# Node
+node_modules/
+
+# Frontend build output
+/adventure-km-frontend/dist/
+/adventure-km-frontend/.angular/cache/
+
+# Backend build output
+/adventure-km-backend/target/
+
+# Uploaded files (runtime data)
+/adventure-km-backend/uploads/

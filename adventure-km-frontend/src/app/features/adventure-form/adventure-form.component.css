@@ -1,4 +1,134 @@
-h1 { margin-bottom: 24px; }
+.form-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.form-page-header h1 { margin-bottom: 0; }
+.btn-delete-form {
+  font-size: 0.75rem;
+  padding: 5px 12px;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  background: none;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-delete-form:hover {
+  background: var(--danger);
+  color: #fff;
+}
+.req {
+  color: var(--danger);
+  margin-right: 2px;
+}
+.field-error input,
+.field-error select,
+.field-error textarea {
+  border-color: var(--danger) !important;
+}
+.field-error-msg {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--danger);
+  margin-top: 3px;
+  font-family: var(--font-mono);
+}
+.required-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+/* Delete modal (same pattern as adventure-detail) */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+.modal-box {
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  padding: 28px 32px;
+  max-width: 420px;
+  width: 90%;
+}
+.modal-title {
+  font-family: var(--font-pixel);
+  font-size: 0.85rem;
+  color: var(--danger);
+  margin-bottom: 12px;
+}
+.modal-body {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.modal-actions {
+  display: flex;
+  gap: 12px;
+}
+.btn-delete-confirm {
+  font-size: 0.8rem;
+  padding: 8px 16px;
+  background: var(--danger);
+  color: #fff;
+  border: none;
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+.btn-delete-confirm:hover { opacity: 0.85; }
+.md-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border-color);
+  border-bottom: none;
+}
+.md-toolbar button {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  background: none;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  line-height: 1.4;
+  min-width: 28px;
+}
+.md-toolbar button:hover {
+  background: var(--bg-surface);
+  color: var(--green-primary);
+  border-color: var(--green-primary);
+}
+.tb-sep {
+  display: inline-block;
+  width: 1px;
+  background: var(--border-color);
+  margin: 2px 4px;
+  align-self: stretch;
+}
+.duration-inputs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.duration-part {
+  flex: 1;
+  min-width: 0;
+}
+.duration-sep {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
 .steps-indicator {
   display: flex;
   gap: 24px;
@@ -47,4 +177,43 @@ textarea {
 .error-msg {
   color: var(--danger);
   margin-bottom: 16px;
+}
+.gpx-upload-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.gpx-file-info {
+  margin-top: 4px;
+}
+.gpx-filename {
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  color: var(--green-primary);
+}
+.gpx-extract-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.gpx-extract-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--gold-accent);
+}
+.gpx-extract-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin: 0;
+}
+.gpx-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 4px;
 }

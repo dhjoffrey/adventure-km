@@ -20,14 +20,15 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
           switchMap(() => {
             const newToken = tokenStorage.getAccessToken();
             if (!newToken) {
-              authService.logout();
+              tokenStorage.clear();
               return throwError(() => error);
             }
             const retryReq = req.clone({ setHeaders: { Authorization: `Bearer ${newToken}` } });
             return next(retryReq);
           }),
           catchError(() => {
-            authService.logout();
+            // Clear tokens silently — let the auth guard redirect on next protected navigation
+            tokenStorage.clear();
             return throwError(() => error);
           })
         );

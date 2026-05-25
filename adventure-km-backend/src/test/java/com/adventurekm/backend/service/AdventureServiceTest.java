@@ -39,7 +39,7 @@ class AdventureServiceTest {
     @Test
     void createDraftAdventure() {
         AdventureCreateRequest request = new AdventureCreateRequest(
-            "Test Run", LocalDate.now(), "## Test\nContent here.", "TRAIL", 2, List.of());
+            "Test Run", LocalDate.now(), "## Test\nContent here.", "TRAIL", 2, List.of(), null, null, null);
         AdventureResponse created = adventureService.create("joffrey", request);
         assertThat(created.id()).isNotNull();
         assertThat(created.status()).isEqualTo("DRAFT");

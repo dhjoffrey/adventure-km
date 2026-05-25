@@ -2,6 +2,7 @@ import { Injectable, PLATFORM_ID, effect, inject, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { catchError, EMPTY } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -32,6 +33,8 @@ export class ThemeService {
   toggle(): void {
     const next = this.theme() === 'light' ? 'dark' : 'light';
     this.theme.set(next);
-    this.http.patch('/api/users/me/theme', { theme: next }).subscribe();
+    this.http.patch('/api/users/me/theme', { theme: next })
+      .pipe(catchError(() => EMPTY))
+      .subscribe();
   }
 }
