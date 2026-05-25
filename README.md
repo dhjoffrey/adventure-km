@@ -128,3 +128,7 @@ L'admin par défaut est le compte seed (`joffrey`, rôle `ADMIN`).
 cd adventure-km-backend
 ./mvnw test
 ```
+
+---
+
+*Projet personnel servant de terrain de jeu pour progresser en développement fullstack (Spring Boot côté backend, Angular côté frontend), et explorer les capacités de [Claude Code](https://claude.ai/code) en assistance au développement.*
